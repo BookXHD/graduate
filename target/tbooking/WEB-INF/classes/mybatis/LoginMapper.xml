@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tzg.xhd.tbooking.mapper.LoginMapper">
+
+    <sql id="table">login</sql>
+
+    <resultMap id="ProResultMap" type="com.tzg.xhd.tbooking.entity.Login">
+        <result property="id" jdbcType="INTEGER" column="id"/>
+        <result property="loginName" jdbcType="VARCHAR" column="loginName" />
+        <result property="password" jdbcType="VARCHAR" column="password" />
+        <result property="phone" jdbcType="CHAR" column="phone" />
+        <result property="dtCreate"  jdbcType="TIMESTAMP" column="dtCreate"/>
+        <result property="dtModify"  jdbcType="TIMESTAMP" column="dtModify"/>
+    </resultMap>
+
+    <insert id="save" parameterType="com.tzg.xhd.tbooking.entity.Login" useGeneratedKeys="true" keyProperty="id">
+        <selectKey keyProperty="id" resultType="java.lang.Integer" order="AFTER">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+        <![CDATA[
+            INSERT INTO login (
+                loginName ,
+                password ,
+                phone ,
+                dtCreate ,
+                dtModify
+            ) VALUES (
+                #{loginName,jdbcType=VARCHAR} ,
+                #{password,jdbcType=VARCHAR} ,
+                #{phone,jdbcType=CHAR} ,
+                #{dtCreate,jdbcType=TIMESTAMP} ,
+                #{dtModify,jdbcType=TIMESTAMP}
+            )
+        ]]>
+    </insert>
+
+    <select id="findUser" resultMap="ProResultMap" parameterType="java.lang.String">
+        SELECT * FROM
+        <include refid="table"/>
+        WHERE loginName = #{loginName}
+    </select>
+
+</mapper>

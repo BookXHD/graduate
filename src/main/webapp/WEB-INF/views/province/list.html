@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>主页</title>
+    <link rel="stylesheet" href="$!{www}/css/bootstrap/bootstrap.min.css">
+    <script src="js/province/list.js"></script>
+</head>
+<body>
+<table border="1px" class="table table-hover tb_province">
+    <thead>
+        <tr>
+            <td>ID</td>
+            <td>省份名字</td>
+            <td>省份位置</td>
+            <td>省份面积</td>
+        </tr>
+    </thead>
+    <tbody>
+    #foreach($row in $result)
+        <tr>
+            <td>$!{row.provinceId}</td>
+            <td>$!{row.provinceName}</td>
+            <td>$!{row.provinceDirec}</td>
+            <td>$!{row.provinceArea}</td>
+        </tr>
+    #end
+    </tbody>
+</table>
+<input type = "button" class = "btn btn-default btn_add" value = "新增" />
+<script src="$!{www}/js/jquery-3.2.1.min.js"></script>
+<srcipt src="$!{www}/js/bootstrap/bootstrap.min.js"></srcipt>
+</body>
+</html>
