@@ -6,6 +6,7 @@ import com.tzg.xhd.tbooking.mapper.LoginMapper;
 import com.tzg.xhd.tbooking.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -48,6 +49,19 @@ public class LoginController {
     @RequestMapping(value = "/register")
     public String register(){
         return "/register";
+    }
+
+    @RequestMapping(value = "/registerSave")
+    @ResponseBody
+    public Answer newUser(@RequestBody Login login){
+        Answer answer = new Answer();
+        try{
+
+        } catch (Exception e){
+            answer.setMessage(e.getMessage());
+            answer.setSuccess(false);
+        }
+        return answer;
     }
 
     public String getWww() {

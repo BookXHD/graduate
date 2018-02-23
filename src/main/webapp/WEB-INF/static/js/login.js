@@ -23,7 +23,7 @@ $(function(){
             shadeClose: true,
             shade: false,
             maxmin: true, //开启最大化最小化按钮
-            area: ['900px', '600px'],
+            area: ['900px', '450px'],
             content: '/user/register'
         });
     })
