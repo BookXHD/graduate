@@ -1,5 +1,5 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.tzg.xhd</groupId>
   <artifactId>tbooking</artifactId>
@@ -14,7 +14,7 @@
     <!-- spring版本号 -->
     <spring.version>4.2.5.RELEASE</spring.version>
     <!-- mybatis版本号 -->
-    <mybatis.version>3.4.5</mybatis.version>
+    <mybatis.version>3.4.1</mybatis.version>
     <!--<slf4j.version>1.7.21</slf4j.version>-->
     <!--<logback.version>1.1.6</logback.version>-->
   </properties>
@@ -63,33 +63,33 @@
     <!--以下将logback-ext-spring，logback-classic，slf4j拆分依赖，为的是版本控制-->
     <!-- logback官方提供的对Spring的支持，它的作用就相当于log4j中的Log4jConfigListener -->
     <!--<dependency>-->
-      <!--<groupId>org.logback-extensions</groupId>-->
-      <!--<artifactId>logback-ext-spring</artifactId>-->
-      <!--<version>0.1.4</version>-->
-      <!--<exclusions>-->
-        <!--<exclusion>-->
-          <!--<groupId>ch.qos.logback</groupId>-->
-          <!--<artifactId>logback-classic</artifactId>-->
-        <!--</exclusion>-->
-      <!--</exclusions>-->
+    <!--<groupId>org.logback-extensions</groupId>-->
+    <!--<artifactId>logback-ext-spring</artifactId>-->
+    <!--<version>0.1.4</version>-->
+    <!--<exclusions>-->
+    <!--<exclusion>-->
+    <!--<groupId>ch.qos.logback</groupId>-->
+    <!--<artifactId>logback-classic</artifactId>-->
+    <!--</exclusion>-->
+    <!--</exclusions>-->
     <!--</dependency>-->
     <!-- logging -->
     <!--<dependency>-->
-      <!--<groupId>org.slf4j</groupId>-->
-      <!--<artifactId>slf4j-api</artifactId>-->
-      <!--<version>${slf4j.version}</version>-->
+    <!--<groupId>org.slf4j</groupId>-->
+    <!--<artifactId>slf4j-api</artifactId>-->
+    <!--<version>${slf4j.version}</version>-->
     <!--</dependency>-->
     <!-- logback-classic包含:slf4j-api.jar、logback-core.jar及logback-classsic.jar -->
     <!--<dependency>-->
-      <!--<groupId>ch.qos.logback</groupId>-->
-      <!--<artifactId>logback-classic</artifactId>-->
-      <!--<version>${logback.version}</version>-->
-      <!--<exclusions>-->
-        <!--<exclusion>-->
-          <!--<groupId>org.slf4j</groupId>-->
-          <!--<artifactId>slf4j-api</artifactId>-->
-        <!--</exclusion>-->
-      <!--</exclusions>-->
+    <!--<groupId>ch.qos.logback</groupId>-->
+    <!--<artifactId>logback-classic</artifactId>-->
+    <!--<version>${logback.version}</version>-->
+    <!--<exclusions>-->
+    <!--<exclusion>-->
+    <!--<groupId>org.slf4j</groupId>-->
+    <!--<artifactId>slf4j-api</artifactId>-->
+    <!--</exclusion>-->
+    <!--</exclusions>-->
     <!--</dependency>-->
 
     <!-- JSON -->
@@ -205,62 +205,61 @@
     </dependency>
 
 
-
     <!--<dependency>-->
-      <!--<groupId>org.apache.velocity</groupId>-->
-      <!--<artifactId>velocity</artifactId>-->
-      <!--<version>1.7</version>-->
-      <!--<exclusions>-->
-        <!--<exclusion>-->
-          <!--<groupId>commons-collections</groupId>-->
-          <!--<artifactId>commons-collections</artifactId>-->
-        <!--</exclusion>-->
-        <!--<exclusion>-->
-          <!--<groupId>commons-lang</groupId>-->
-          <!--<artifactId>commons-lang</artifactId>-->
-        <!--</exclusion>-->
-      <!--</exclusions>-->
+    <!--<groupId>org.apache.velocity</groupId>-->
+    <!--<artifactId>velocity</artifactId>-->
+    <!--<version>1.7</version>-->
+    <!--<exclusions>-->
+    <!--<exclusion>-->
+    <!--<groupId>commons-collections</groupId>-->
+    <!--<artifactId>commons-collections</artifactId>-->
+    <!--</exclusion>-->
+    <!--<exclusion>-->
+    <!--<groupId>commons-lang</groupId>-->
+    <!--<artifactId>commons-lang</artifactId>-->
+    <!--</exclusion>-->
+    <!--</exclusions>-->
     <!--</dependency>-->
     <!--<dependency>-->
-      <!--<groupId>org.apache.velocity</groupId>-->
-      <!--<artifactId>velocity-tools</artifactId>-->
-      <!--<version>2.0</version>-->
-      <!--<exclusions>-->
-        <!--<exclusion>-->
-          <!--<groupId>org.apache.struts</groupId>-->
-          <!--<artifactId>struts-core</artifactId>-->
-        <!--</exclusion>-->
-        <!--<exclusion>-->
-          <!--<groupId>org.apache.struts</groupId>-->
-          <!--<artifactId>struts-taglib</artifactId>-->
-        <!--</exclusion>-->
-        <!--<exclusion>-->
-          <!--<groupId>org.apache.struts</groupId>-->
-          <!--<artifactId>struts-tiles</artifactId>-->
-        <!--</exclusion>-->
-        <!--<exclusion>-->
-          <!--<groupId>commons-beanutils</groupId>-->
-          <!--<artifactId>commons-beanutils</artifactId>-->
-        <!--</exclusion>-->
-        <!--&lt;!&ndash; <exclusion> <groupId>commons-digester</groupId> <artifactId>commons-digester</artifactId>-->
-            <!--</exclusion> &ndash;&gt;-->
-        <!--<exclusion>-->
-          <!--<groupId>commons-logging</groupId>-->
-          <!--<artifactId>commons-logging</artifactId>-->
-        <!--</exclusion>-->
-        <!--<exclusion>-->
-          <!--<groupId>commons-collections</groupId>-->
-          <!--<artifactId>commons-collections</artifactId>-->
-        <!--</exclusion>-->
-        <!--<exclusion>-->
-          <!--<groupId>org.apache.velocity</groupId>-->
-          <!--<artifactId>velocity</artifactId>-->
-        <!--</exclusion>-->
-        <!--<exclusion>-->
-          <!--<groupId>dom4j</groupId>-->
-          <!--<artifactId>dom4j</artifactId>-->
-        <!--</exclusion>-->
-      <!--</exclusions>-->
+    <!--<groupId>org.apache.velocity</groupId>-->
+    <!--<artifactId>velocity-tools</artifactId>-->
+    <!--<version>2.0</version>-->
+    <!--<exclusions>-->
+    <!--<exclusion>-->
+    <!--<groupId>org.apache.struts</groupId>-->
+    <!--<artifactId>struts-core</artifactId>-->
+    <!--</exclusion>-->
+    <!--<exclusion>-->
+    <!--<groupId>org.apache.struts</groupId>-->
+    <!--<artifactId>struts-taglib</artifactId>-->
+    <!--</exclusion>-->
+    <!--<exclusion>-->
+    <!--<groupId>org.apache.struts</groupId>-->
+    <!--<artifactId>struts-tiles</artifactId>-->
+    <!--</exclusion>-->
+    <!--<exclusion>-->
+    <!--<groupId>commons-beanutils</groupId>-->
+    <!--<artifactId>commons-beanutils</artifactId>-->
+    <!--</exclusion>-->
+    <!--&lt;!&ndash; <exclusion> <groupId>commons-digester</groupId> <artifactId>commons-digester</artifactId>-->
+    <!--</exclusion> &ndash;&gt;-->
+    <!--<exclusion>-->
+    <!--<groupId>commons-logging</groupId>-->
+    <!--<artifactId>commons-logging</artifactId>-->
+    <!--</exclusion>-->
+    <!--<exclusion>-->
+    <!--<groupId>commons-collections</groupId>-->
+    <!--<artifactId>commons-collections</artifactId>-->
+    <!--</exclusion>-->
+    <!--<exclusion>-->
+    <!--<groupId>org.apache.velocity</groupId>-->
+    <!--<artifactId>velocity</artifactId>-->
+    <!--</exclusion>-->
+    <!--<exclusion>-->
+    <!--<groupId>dom4j</groupId>-->
+    <!--<artifactId>dom4j</artifactId>-->
+    <!--</exclusion>-->
+    <!--</exclusions>-->
     <!--</dependency>-->
 
   </dependencies>
