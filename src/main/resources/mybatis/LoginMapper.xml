@@ -13,27 +13,6 @@
         <result property="dtModify"  jdbcType="TIMESTAMP" column="dtModify"/>
     </resultMap>
 
-    <insert id="save" parameterType="com.tzg.xhd.tbooking.entity.Login" useGeneratedKeys="true" keyProperty="id">
-        <selectKey keyProperty="id" resultType="java.lang.Integer" order="AFTER">
-            SELECT LAST_INSERT_ID() AS id
-        </selectKey>
-        <![CDATA[
-            INSERT INTO login (
-                loginName ,
-                password ,
-                phone ,
-                dtCreate ,
-                dtModify
-            ) VALUES (
-                #{loginName,jdbcType=VARCHAR} ,
-                #{password,jdbcType=VARCHAR} ,
-                #{phone,jdbcType=CHAR} ,
-                #{dtCreate,jdbcType=TIMESTAMP} ,
-                #{dtModify,jdbcType=TIMESTAMP}
-            )
-        ]]>
-    </insert>
-
     <select id="findUser" resultMap="ProResultMap" parameterType="java.lang.String">
         SELECT * FROM
         <include refid="table"/>

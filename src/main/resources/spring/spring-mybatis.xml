@@ -56,15 +56,11 @@
         <property name="typeAliasesPackage" value="com.tzg.xhd.tbooking.entity"/>
         <!-- 扫描sql配置文件:mapper需要的xml文件 -->
         <property name="mapperLocations" value="classpath:mybatis/*.xml"/>
-        <!-- 分页插件 -->
-
         <property name="plugins">
             <array>
                 <bean class="com.github.pagehelper.PageInterceptor">
                     <property name="properties">
                         <value>
-                            dialect=mysql
-                            reasonable=true
                         </value>
                     </property>
                 </bean>
@@ -73,11 +69,16 @@
     </bean>
 
     <!-- 配置扫描Dao接口包，动态实现Dao接口，注入到spring容器中 -->
-    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+    <bean class="tk.mybatis.spring.mapper.MapperScannerConfigurer">
         <!-- 注入sqlSessionFactory -->
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
         <!-- 给出需要扫描Dao接口包 -->
         <property name="basePackage" value="com.tzg.xhd.tbooking.mapper"/>
+        <property name="properties">
+            <value>
+                mappers=tk.mybatis.mapper.common.Mapper
+            </value>
+        </property>
     </bean>
 
     <!-- 配置事务管理器 -->

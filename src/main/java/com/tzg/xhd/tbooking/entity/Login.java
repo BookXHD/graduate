@@ -1,24 +1,32 @@
 package com.tzg.xhd.tbooking.entity;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
+@Table(name = "login")
 public class Login implements Serializable {
-    /**id主键**/
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(name = "loginName")
     /**登录账号**/
     private String loginName;
 
+    @Column(name = "password")
     /**登录密码**/
     private String password;
 
+    @Column(name = "phone")
     /**联系方式**/
     private String phone;
 
+    @Column(name = "dtCreate")
     /**创建日期**/
     private Date dtCreate;
 
+    @Column(name = "dtModify")
     /**修改日期**/
     private Date dtModify;
 

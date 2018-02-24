@@ -1,6 +1,7 @@
 package com.tzg.xhd.tbooking.controller;
 
 import com.tzg.xhd.tbooking.common.Answer;
+import com.tzg.xhd.tbooking.common.AnswerGenerator;
 import com.tzg.xhd.tbooking.entity.Login;
 import com.tzg.xhd.tbooking.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,14 +54,8 @@ public class LoginController {
     @RequestMapping(value = "/registerSave")
     @ResponseBody
     public Answer newUser(@RequestBody Login login){
-        Answer answer = new Answer();
-        try{
-
-        } catch (Exception e){
-            answer.setMessage(e.getMessage());
-            answer.setSuccess(false);
-        }
-        return answer;
+        loginService.save(login);
+        return AnswerGenerator.genSuccessAnswer();
     }
 
     public String getWww() {
