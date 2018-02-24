@@ -8,6 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+
+import java.util.List;
 
 @Controller("provinceContoller")
 @RequestMapping(value = "province")
@@ -22,8 +26,11 @@ public class ProvinceController {
      */
     @RequestMapping(value = "/list",method = RequestMethod.GET)
     public String index(Model model){
+        PageHelper.startPage(1, 3);
+        List<Province> list = ProvinceService.getAllProvince();
+        PageInfo pageInfo = new PageInfo(list);
         model.addAttribute("aaa","aaa");
-        model.addAttribute("result", ProvinceService.getAllProvince());
+        model.addAttribute("result", list);
         return "province/list";
     }
 

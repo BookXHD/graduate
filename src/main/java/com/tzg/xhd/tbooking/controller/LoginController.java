@@ -2,7 +2,6 @@ package com.tzg.xhd.tbooking.controller;
 
 import com.tzg.xhd.tbooking.common.Answer;
 import com.tzg.xhd.tbooking.entity.Login;
-import com.tzg.xhd.tbooking.mapper.LoginMapper;
 import com.tzg.xhd.tbooking.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
