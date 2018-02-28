@@ -2,13 +2,15 @@ package com.tzg.xhd.tbooking.common;
 
 import org.apache.ibatis.exceptions.TooManyResultsException;
 import tk.mybatis.mapper.entity.Condition;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * Service 层 基础接口，其他Service 接口 请继承该接口
  */
-public interface Service<T> {
+@Service
+public interface BaseService<T> {
     /**
      * 插入单条数据
      * null的属性不会保存，会使用数据库默认值

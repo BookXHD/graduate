@@ -9,11 +9,11 @@ $(function () {
             dataType: "json",
             contentType: "application/json",
             error:function(data){
-                layer.msg("注册失败");
+                layer.msg(data.message);
             },
             success:function (data) {
                 debugger;
-                layer.msg("注册成功");
+                layer.msg(data.message);
             }
         });
     });

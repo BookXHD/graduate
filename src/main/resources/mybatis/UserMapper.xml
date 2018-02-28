@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.tzg.xhd.tbooking.mapper.LoginMapper">
+<mapper namespace="com.tzg.xhd.tbooking.mapper.UserMapper">
 
-    <sql id="table">login</sql>
+    <sql id="table">user</sql>
 
-    <resultMap id="ProResultMap" type="com.tzg.xhd.tbooking.entity.Login">
+    <resultMap id="ProResultMap" type="com.tzg.xhd.tbooking.entity.User">
         <result property="id" jdbcType="INTEGER" column="id"/>
         <result property="loginName" jdbcType="VARCHAR" column="loginName" />
         <result property="password" jdbcType="VARCHAR" column="password" />

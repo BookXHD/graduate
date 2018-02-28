@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * 基于通用MyBatis Mapper插件的Service接口的实现
  */
-public abstract class AbstractService<T> implements Service<T> {
+public abstract class AbstractService<T> implements BaseService<T> {
 
     @Autowired
     protected Mapper<T> mapper;

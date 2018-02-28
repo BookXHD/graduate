@@ -16,6 +16,9 @@
     <!-- 开启SpringMVC注解模式 -->
     <mvc:annotation-driven/>
 
+    <!--向容器自动注入配置-->
+    <context:annotation-config />
+
     <!-- 静态资源默认servlet配置 -->
     <mvc:default-servlet-handler/>
     <mvc:resources mapping="/css/**" location="/WEB-INF/static/css/" />
@@ -55,4 +58,6 @@
         </property>
     </bean>
 
+    <!--SwaggerConfig配置类注入-->
+    <bean class="com.tzg.xhd.tbooking.config.SwaggerConfig"/>
 </beans>

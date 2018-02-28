@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>城市列表</title>
+    <link rel="stylesheet" href="$!{www}/css/bootstrap/bootstrap.min.css">
+    <script src="js/city/list.js"></script>
+</head>
+<body>
+<table border="1px" class="table table-hover">
+    <thead>
+        <tr>
+            <td>ID</td>
+            <td>城市名字</td>
+            <td>所属省份</td>
+            <td>城市面积</td>
+            <td>城市历史年数</td>
+        </tr>
+    </thead>
+    <tbody>
+    #foreach($row in $result)
+        <tr>
+            <td>$!{row.id}</td>
+            <td>$!{row.name}</td>
+            <td>$!{row.province}</td>
+            <td>$!{row.area}</td>
+            <td>$!{row.age}</td>
+        </tr>
+    #end
+    </tbody>
+</table>
+<script src="$!{www}/js/jquery-3.2.1.min.js"></script>
+<srcipt src="$!{www}/js/bootstrap/bootstrap.min.js"></srcipt>
+</body>
+</html>

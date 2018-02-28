@@ -8,4 +8,7 @@
     <root level="info">
         <appender-ref ref="STDOUT"/>
     </root>
+
+    <!--sql语句打印-->
+    <logger name="com.tzg.xhd.tbooking.mapper" level="DEBUG"/>
 </configuration>
