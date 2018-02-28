@@ -146,12 +146,6 @@
 
     <!--通用mapper插件-->
     <dependency>
-      <groupId>com.github.abel533</groupId>
-      <artifactId>mapper</artifactId>
-      <version>3.0.0</version>
-    </dependency>
-
-    <dependency>
       <groupId>tk.mybatis</groupId>
       <artifactId>mapper</artifactId>
       <version>3.4.2</version>
