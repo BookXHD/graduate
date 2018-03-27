@@ -1,5 +1,5 @@
 body{
-    background: url("../img/index1.jpg") no-repeat fixed center;
+    background: url("../../img/index1.jpg") no-repeat fixed center;
     background-size:cover;
     animation-name:myfirst;
     animation-duration:12s;
@@ -17,10 +17,10 @@ body{
 
 @keyframes myfirst
 {
-    0%   {background:url("../img/index1.jpg") no-repeat fixed center;background-size:cover;}
-    34%  {background:url("../img/index2.jpg") no-repeat fixed center;background-size:cover;}
-    67%  {background:url("../img/index3.jpg") no-repeat fixed center;background-size:cover;}
-    100% {background:url("../img/index1.jpg") no-repeat fixed center;background-size:cover;}
+    0%   {background:url("../../img/index1.jpg") no-repeat fixed center;background-size:cover;}
+    34%  {background:url("../../img/index2.jpg") no-repeat fixed center;background-size:cover;}
+    67%  {background:url("../../img/index3.jpg") no-repeat fixed center;background-size:cover;}
+    100% {background:url("../../img/index1.jpg") no-repeat fixed center;background-size:cover;}
 }
 .form{background: rgba(255,255,255,0.2);width:400px;margin:120px auto;}
 /*阴影*/

@@ -10,9 +10,9 @@ import java.io.Serializable;
  * 描述:city表的实体类
  * @version
  * @author:  Administrator
- * @创建时间: 2018-02-28
+ * @创建时间: 2018-03-02
  */
-@Table
+@Table(name = "city")
 public class City implements Serializable {
     /**
      * 主键
@@ -30,6 +30,11 @@ public class City implements Serializable {
      * 所属省份
      */
     private String province;
+
+    /**
+     * 城市照片保存的相对地址
+     */
+    private String img;
 
     /**
      * 面积（平方千米）
@@ -117,6 +122,14 @@ public class City implements Serializable {
      */
     public void setProvince(String province) {
         this.province = province == null ? null : province.trim();
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
     }
 
     /**

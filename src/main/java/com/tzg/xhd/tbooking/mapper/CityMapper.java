@@ -8,4 +8,6 @@ import java.util.List;
 
 @Repository
 public interface CityMapper extends Mapper<City>{
+
+    List<City> getCityByProvince(String province);
 }

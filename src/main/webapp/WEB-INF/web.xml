@@ -15,6 +15,17 @@
     <param-value>classpath:spring/spring-mybatis.xml</param-value>
   </context-param>
 
+  <!-- LogbackConfigListener监听器的初始参数 -->
+  <context-param>
+    <param-name>logbackConfigLocation</param-name>
+    <param-value>classpath:logback.xml</param-value>
+  </context-param>
+
+  <!-- logback初始化监听器 com.tzg.ex.mvc.web.listener.LogbackConfigListener -->
+  <listener>
+    <listener-class>ch.qos.logback.ext.spring.web.LogbackConfigListener</listener-class>
+  </listener>
+
   <!-- 编码过滤器 -->
   <filter>
     <filter-name>encodingFilter</filter-name>

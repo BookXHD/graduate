@@ -5,9 +5,8 @@ public class AnswerGenerator {
 
     public static Answer genSuccessAnswer(String message, Object data){
         Answer answer = new Answer();
-        answer.setSuccess(true);
         answer.setMessage(message);
-        answer.setData(data);
+        answer = genSuccessAnswer(data);
         return answer;
     }
 

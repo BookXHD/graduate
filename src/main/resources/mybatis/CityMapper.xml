@@ -1,16 +1,24 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.tzg.xhd.tbooking.mapper.CityMapper" >
-  <resultMap id="BaseResultMap" type="com.tzg.xhd.tbooking.entity.City" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="province" property="province" jdbcType="VARCHAR" />
-    <result column="area" property="area" jdbcType="INTEGER" />
-    <result column="population" property="population" jdbcType="INTEGER" />
-    <result column="age" property="age" jdbcType="INTEGER" />
-    <result column="history" property="history" jdbcType="VARCHAR" />
-    <result column="weather" property="weather" jdbcType="VARCHAR" />
-    <result column="food" property="food" jdbcType="VARCHAR" />
-    <result column="cultural" property="cultural" jdbcType="VARCHAR" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tzg.xhd.tbooking.mapper.CityMapper">
+  <resultMap id="BaseResultMap" type="com.tzg.xhd.tbooking.entity.City">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="province" jdbcType="VARCHAR" property="province" />
+    <result column="img" jdbcType="VARCHAR" property="img" />
+    <result column="area" jdbcType="INTEGER" property="area" />
+    <result column="population" jdbcType="INTEGER" property="population" />
+    <result column="age" jdbcType="INTEGER" property="age" />
+    <result column="history" jdbcType="VARCHAR" property="history" />
+    <result column="weather" jdbcType="VARCHAR" property="weather" />
+    <result column="food" jdbcType="VARCHAR" property="food" />
+    <result column="cultural" jdbcType="VARCHAR" property="cultural" />
   </resultMap>
+  <sql id="table">city</sql>
+
+  <select id="getCityByProvince" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT * FROM
+    <include refid="table" />
+    WHERE province = #{province}
+  </select>
 </mapper>

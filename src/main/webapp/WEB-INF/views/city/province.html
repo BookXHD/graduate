@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>城市列表</title>
+    <link rel="stylesheet" href="$!{www}/css/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="$!{www}/css/flat-ui/css/flat-ui.css"/>
+
+</head>
+<body>
+<nav class="navbar navbar-default" role="navigation">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-01">
+            <span class="sr-only">Toggle navigation</span>
+        </button>
+        <a class="navbar-brand" href="#">海胆</a>
+    </div>
+    <div class="collapse navbar-collapse" id="navbar-collapse-01">
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="/city/list">目的地</a></li>
+            <li><a href="/">攻略</a></li>
+            <li><a href="/user/userCenter">个人主页</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right nonlogin-model">
+            <li><a href="/user/login">登录</a></li>
+            <li><a href="/user/register">注册</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right login-model" hidden>
+            <li>$!{user.nickName}<a class="li_logout" style="float: right">退出登录</a></li>
+        </ul>
+        <form class="navbar-form navbar-right" action="#" role="search">
+            <div class="form-group">
+                <div class="input-group">
+                    <input class="form-control" id="navbarInput-01" type="search" placeholder="Search">
+                    <span class="input-group-btn">
+            <button type="submit" class="btn"><span class="fui-search"></span></button>
+          </span>
+                </div>
+            </div>
+        </form>
+    </div><!-- /.navbar-collapse -->
+</nav><!-- /navbar -->
+<div class="btn-group" role="group">
+    <button type="button" class="btn btn-success btn_province" value="1">浙江</button>
+    <button type="button" class="btn btn-success btn_province" value="2">江苏</button>
+</div>
+<script src="$!{www}/js/jquery-3.2.1.min.js"></script>
+<srcipt src="$!{www}/js/bootstrap/bootstrap.min.js"></srcipt>
+</srcipt><script src="$!{www}/js/layer/layer.js"></script>
+<script src="$!{www}/js/top.js"></script>
+<script src="$!{www}/js/city/province.js"></script>
+</body>
+</html>
