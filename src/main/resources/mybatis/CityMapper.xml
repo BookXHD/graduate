@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.tzg.xhd.tbooking.entity.City">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="province" jdbcType="VARCHAR" property="province" />
+    <result column="province" jdbcType="INTEGER" property="province" />
     <result column="img" jdbcType="VARCHAR" property="img" />
     <result column="area" jdbcType="INTEGER" property="area" />
     <result column="population" jdbcType="INTEGER" property="population" />
