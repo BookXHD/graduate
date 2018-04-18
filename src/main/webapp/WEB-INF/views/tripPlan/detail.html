@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>详情</title>
+    <link rel="stylesheet" href="$!{www}/css/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="$!{www}/css/flat-ui/css/flat-ui.css"/>
+</head>
+<body>
+
+<div class="container">
+    <div class="form row">
+        <div class="form-horizontal col-md-offset-1">
+            <div class="col-md-9">
+                <div class="form-group">
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-primary btn_detail" value="$!{tripPlan.id}">$!{tripPlan.name}</button>
+                    </div>
+                    <div class="col-md-1">
+                        <label class="label label-info">$!{tripPlan.price} 元</label>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="label label-info">$!{tripPlan.planDescribe}</label>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="label label-info">$!{tripPlan.startDate}~$!{tripPlan.endDate}</label>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="label label-info">剩余名额/总名额:$!{tripPlan.remainAssign}/$!{tripPlan.totalPerson}</label>
+                    </div>
+                    行程安排：
+                    #foreach($day in $daysPlan)
+                    <div class="col-md-6">
+                        <label class="label label-info">$!{day}</label>
+                    </div>
+                    #end
+                    <hr>
+                    <div class="col-md-1">
+                        <button type="button" class="btn btn-primary btn_buy" value="$!{tripPlan.id}">购买</button>
+                    </div>
+                    <div class="col-md-1">
+                        <button type="button" class="btn btn-primary btn_collect" value="$!{tripPlan.id}">收藏</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="$!{www}/js/jquery-3.2.1.min.js"></script>
+<srcipt src="$!{www}/js/bootstrap/bootstrap.min.js"></srcipt>
+<script src="$!{www}/js/layer/layer.js"></script>
+<script src="$!{www}/js/tripPlan/tripPlan.js"></script>
+</body>
+</html>

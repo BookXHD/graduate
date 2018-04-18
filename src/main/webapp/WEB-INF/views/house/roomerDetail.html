@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>城市</title>
+    <title>住宿信息</title>
     <link rel="stylesheet" href="$!{www}/css/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="$!{www}/css/flat-ui/css/flat-ui.css"/>
 </head>
@@ -16,9 +16,9 @@
     </div>
     <div class="collapse navbar-collapse" id="navbar-collapse-01">
         <ul class="nav navbar-nav">
-            <li class="active"><a href="/city/list">目的地</a></li>
+            <li><a href="/city/list">目的地</a></li>
             <li><a href="/">攻略</a></li>
-            <li><a href="/house/liveDetail">住宿</a></li>
+            <li class="active"><a href="/house/liveDetail">住宿</a></li>
             <li><a href="/user/orderRecord">我的订单</a></li>
             <li><a href="/user/userCenter">个人主页</a></li>
         </ul>
@@ -42,56 +42,35 @@
     </div><!-- /.navbar-collapse -->
 </nav><!-- /navbar -->
 <div class="container">
-    <div class="row">
-        <div class="form-horizontal">
+    <div class="form row">
+        <div class="form-horizontal col-md-offset-3">
             <div class="col-md-9">
-                    <label class="label label-info">$!{city.name}</label>
-            </div>
-            <div class="col-md-9">
-                <label class="label label-info">$!{province}</label>
-            </div>
-            <div class="col-md-9">
-                <img src="$!{city.img}" class="img-rounded" width="200">
-            </div>
-            <div class="col-md-9">
-                <label class="label label-info">$!{city.history}</label>
+                <form class = "editInformation_form">
+                    <div class="form-group">
+                        <label for="city">城市</label>
+                        <input type="text" class="form-control" id="city" name="city">
+                        <!--<input type="hidden" class="form-control" id="id" value="$!{user.id}" name="id">/-->
+                    </div>
+                    <div class="form-group">
+                        <label for="roomTime">入住时间</label>
+                        <input type="text" class="form-control" id="roomTime" name="roomTime">
+                    </div>
+                    <div class="form-group">
+                        <label for="roomDays">住宿天数</label>
+                        <input type="text" class="form-control" id="roomDays" name="roomDays">
+                    </div>
+                    <div class="form-group">
+                        <label for="roomAmount">需要房间数</label>
+                        <input type="text" class="form-control" id="roomAmount" name="roomAmount">
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-
-    #foreach($tripPlan in $tripPlans)
-    <hr>
-    <div class="row">
-        <div class="form-horizontal">
-            <div class="col-md-2">
-                <button type="button" class="btn btn-primary btn_detail" value="$!{tripPlan.id}">$!{tripPlan.name}</button>
-            </div>
-            <div class="col-md-1">
-                <label class="label label-info">$!{tripPlan.price} 元</label>
-            </div>
-            <div class="col-md-6">
-                <label class="label label-info">$!{tripPlan.planDescribe}</label>
-            </div>
-            <div class="col-md-4">
-                <label class="label label-info">$!{tripPlan.startDate}~$!{tripPlan.endDate}</label>
-            </div>
-            <div class="col-md-4">
-                <label class="label label-info">剩余名额/总名额:$!{tripPlan.remainAssign}/$!{tripPlan.totalPerson}</label>
-            </div>
-            <div class="col-md-1">
-                <button type="button" class="btn btn-primary btn_buy" value="$!{tripPlan.id}">购买</button>
-            </div>
-            <div class="col-md-1">
-                <button type="button" class="btn btn-primary btn_collect" value="$!{tripPlan.id}">收藏</button>
-            </div>
-        </div>
-    </div>
-    #end
 </div>
 <script src="$!{www}/js/jquery-3.2.1.min.js"></script>
 <srcipt src="$!{www}/js/bootstrap/bootstrap.min.js"></srcipt>
-<script src="$!{www}/js/layer/layer.js"></script>
-<script src="$!{www}/js/tripPlan/tripPlan.js"></script>
+</srcipt><script src="$!{www}/js/layer/layer.js"></script>
 <script src="$!{www}/js/top.js"></script>
 </body>
 </html>

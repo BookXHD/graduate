@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>我的订单</title>
+    <link rel="stylesheet" href="$!{www}/css/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="$!{www}/css/flat-ui/css/flat-ui.css"/>
+</head>
+<body>
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-01">
+                <span class="sr-only">Toggle navigation</span>
+            </button>
+            <a class="navbar-brand" href="#">海胆</a>
+        </div>
+        <div class="collapse navbar-collapse" id="navbar-collapse-01">
+            <ul class="nav navbar-nav">
+                <li><a href="/city/list">目的地</a></li>
+                <li><a href="/">攻略</a></li>
+                <li><a href="/house/liveDetail">住宿</a></li>
+                <li class="active"><a href="/user/orderRecord">我的订单</a></li>
+                <li><a href="/user/userCenter">个人主页</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right nonlogin-model">
+                <li><a href="/user/login">登录</a></li>
+                <li><a href="/user/register">注册</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right login-model" hidden>
+                <li>$!{user.nickName}<a class="li_logout" style="float: right">退出登录</a></li>
+            </ul>
+            <form class="navbar-form navbar-right" action="#" role="search">
+                <div class="form-group">
+                    <div class="input-group">
+                        <input class="form-control" id="navbarInput-01" type="search" placeholder="Search">
+                        <span class="input-group-btn">
+            <button type="submit" class="btn"><span class="fui-search"></span></button>
+          </span>
+                    </div>
+                </div>
+            </form>
+        </div><!-- /.navbar-collapse -->
+    </nav><!-- /navbar -->
+
+    <table border="0" class="table table-hover" width="100%">
+        <thead>
+        <th>订单号</th>
+        <th>套餐名字</th>
+        <th>状态</th>
+        <th>操作</th>
+        </thead>
+        <tbody>
+        #foreach($tripPlanOrder in $tripPlanOrders)
+        <tr>
+            <td><label class="label label-info">$!{tripPlanOrder.orderNo}</label></td>
+            <td>
+                <button type="button" class="btn btn-primary btn_detail" value="$!{tripPlanOrder.tripPlanId}">$!{tripPlanOrder.tripPlanName}</button>
+            </td>
+            <td><label class="label label-info">
+                #if($!{tripPlanOrder.payState} == 1) 已收藏
+                #elseif($!{tripPlanOrder.payState} == 2) 已支付
+                #end
+            </label></td>
+            <td>
+                #if($!{tripPlanOrder.payState} == 1)
+                <button type="button" class="btn btn-primary btn_buy" value="$!{tripPlanOrder.tripPlanId}">立即购买</button>
+                #end
+                <button type="button" class="btn btn-primary btn_detail" value="$!{tripPlanOrder.tripPlanId}">行程详情</button>
+            </td>
+        </tr>
+        #end
+        </tbody>
+    </table>
+<script src="$!{www}/js/jquery-3.2.1.min.js"></script>
+<srcipt src="$!{www}/js/bootstrap/bootstrap.min.js">
+</srcipt><script src="$!{www}/js/layer/layer.js"></script>
+<script src="$!{www}/js/tripPlan/tripPlan.js"></script>
+</body>
+</html>
