@@ -3,7 +3,9 @@ package com.tzg.xhd.tbooking.controller;
 
 import com.tzg.xhd.tbooking.common.Answer;
 import com.tzg.xhd.tbooking.common.AnswerGenerator;
+import com.tzg.xhd.tbooking.entity.TripPlanOrder;
 import com.tzg.xhd.tbooking.entity.User;
+import com.tzg.xhd.tbooking.service.TripPlanOrderService;
 import com.tzg.xhd.tbooking.service.UserService;
 import com.tzg.xhd.tbooking.util.HttpSessionUtil;
 import io.swagger.annotations.*;
@@ -26,13 +28,16 @@ import java.io.IOException;
 import java.util.List;
 
 @Api(description = "用户操作")
-@Controller("LoginController")
+@Controller("userController")
 @RequestMapping(value = "/user")
 public class UserController {
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    TripPlanOrderService tripPlanOrderService;
 
     @ApiOperation(value = "用户登录", notes = "用户登录页面跳转")
     @RequestMapping(value = "/login",method = RequestMethod.GET)
@@ -146,6 +151,14 @@ public class UserController {
         userService.update(user);
         HttpSessionUtil.setLoginUserSession(user);
         return AnswerGenerator.genSuccessAnswer("上传成功!");
+    }
+
+    @RequestMapping(value = "/orderRecord")
+    public String orderRecord(Model model){
+        User user = HttpSessionUtil.getLoginUserSession();
+        List<TripPlanOrder> tripPlanOrders = tripPlanOrderService.selectByUser(user.getId());
+        model.addAttribute("tripPlanOrders",tripPlanOrders);
+        return "user/order";
     }
 
     public String getWww() {

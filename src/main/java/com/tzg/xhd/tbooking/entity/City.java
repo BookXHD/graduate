@@ -29,7 +29,7 @@ public class City implements Serializable {
     /**
      * 所属省份
      */
-    private String province;
+    private Integer province;
 
     /**
      * 城市照片保存的相对地址
@@ -112,7 +112,7 @@ public class City implements Serializable {
      * 所属省份
      * @return province 所属省份
      */
-    public String getProvince() {
+    public Integer getProvince() {
         return province;
     }
 
@@ -120,8 +120,8 @@ public class City implements Serializable {
      * 所属省份
      * @param province 所属省份
      */
-    public void setProvince(String province) {
-        this.province = province == null ? null : province.trim();
+    public void setProvince(Integer province) {
+        this.province = province == null ? null : province;
     }
 
     public String getImg() {
