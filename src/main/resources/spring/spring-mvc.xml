@@ -39,6 +39,7 @@
         <mvc:interceptor>
             <!--不拦截所有请求，只拦截必需用户登录权限的url-->
             <mvc:mapping path="/user/userCenter"/>
+            <mvc:mapping path="/user/orderRecord"/>
             <!--不拦截静态资源-->
             <mvc:exclude-mapping path="/js/**"/>
             <mvc:exclude-mapping path="/css/**"/>
