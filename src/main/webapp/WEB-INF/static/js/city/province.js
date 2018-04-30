@@ -21,13 +21,6 @@ $(function(){
 
     $(".btn_citys").on("click",function(){
         var cityId = $(this).attr("value");
-        $.ajax({
-            url:"/city/city?cityId=" + cityId,
-            type:"GET",
-            async:false,
-            success:function(){
-                parent.location.reload();
-            }
-        });
+        parent.location.href="/city/city?cityId="+cityId;
     });
 });
