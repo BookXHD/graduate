@@ -1,6 +1,5 @@
 package com.tzg.xhd.tbooking.controller;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
@@ -11,14 +10,14 @@ import com.tzg.xhd.tbooking.common.Answer;
 import com.tzg.xhd.tbooking.common.AnswerGenerator;
 import com.tzg.xhd.tbooking.config.AlipayConfig;
 import com.tzg.xhd.tbooking.entity.TripPlan;
-import com.tzg.xhd.tbooking.entity.TripPlanOrder;
 import com.tzg.xhd.tbooking.entity.User;
+import com.tzg.xhd.tbooking.service.HouseService;
 import com.tzg.xhd.tbooking.service.TripPlanOrderService;
 import com.tzg.xhd.tbooking.service.TripPlanService;
 import com.tzg.xhd.tbooking.util.DateUtil;
 import com.tzg.xhd.tbooking.util.HttpSessionUtil;
 import io.swagger.annotations.Api;
-import io.swagger.models.auth.In;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.ui.Model;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +28,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.math.BigDecimal;
 import java.util.*;
 
 @Api(description = "旅游套餐")
@@ -42,6 +42,10 @@ public class TripPlanController {
     @Autowired
     private TripPlanOrderService tripPlanOrderService;
 
+    @Autowired
+    private HouseService houseService;
+
+    @ApiOperation(value = "旅游套餐收藏接口", notes = "收藏旅游套餐")
     @RequestMapping(value = "/collectPlanSave",method = RequestMethod.GET)
     @ResponseBody
     public Answer collectPlanSave(String planId){
@@ -54,19 +58,15 @@ public class TripPlanController {
             tripPlanOrderService.CreateOrderByCollect(planId);
             answer = AnswerGenerator.genSuccessAnswer("收藏成功！");
         }catch (Exception e){
-            log.info(e.getMessage());
+            log.error(e.getMessage());
             return AnswerGenerator.genFailAnswer("收藏出错！");
         }
         return answer;
     }
 
-    @RequestMapping(value = "/shopIndex",method = RequestMethod.POST)
-    public void shopIndex(){
-        Answer answer = new Answer();
-    }
-
+    @ApiOperation(value = "旅游套餐支付接口", notes = "支付旅游套餐")
     @RequestMapping(value = "/pay",method = RequestMethod.GET)
-    public void pay(HttpServletResponse rep,String planId){
+    public void pay(HttpServletResponse rep,String planId,String person){
         //获得初始化的AlipayClient
         AlipayClient alipayClient = new DefaultAlipayClient(AlipayConfig.gatewayUrl, AlipayConfig.app_id, AlipayConfig.merchant_private_key, "json", AlipayConfig.charset, AlipayConfig.alipay_public_key, AlipayConfig.sign_type);
         //设置请求参数
@@ -77,9 +77,10 @@ public class TripPlanController {
         TripPlan tripPlan = tripPlanService.findById(Integer.parseInt(planId));
 
         //商户订单号，商户网站订单系统中唯一订单号，必填
-        String out_trade_no = DateUtil.getCurrentTimeStamp()+planId;
+        String out_trade_no = "T"+DateUtil.getCurrentTimeStamp()+planId;
         //付款金额，必填
-        String total_amount = tripPlan.getPrice().toString();
+        Double all = tripPlan.getPrice().doubleValue() * Double.parseDouble(person);
+        String total_amount = all.toString();
         //必填参数 （逻辑上没用）
         String subject = tripPlan.getId().toString();
 
@@ -94,10 +95,11 @@ public class TripPlanController {
             rep.getWriter().flush();
             rep.getWriter().close();
         }catch (Exception e){
-            log.info(e.getMessage());
+            log.error(e.getMessage());
         }
     }
 
+    @ApiOperation(value = "支付宝同步返回接口", notes = "支付宝同步返回")
     @RequestMapping(value = "/payed",method = RequestMethod.GET)
     public String payed(HttpServletRequest request){
         //获取支付宝POST过来反馈信息
@@ -131,12 +133,13 @@ public class TripPlanController {
                 throw new Exception("验签失败！");
             }
         }catch (Exception e){
-            log.info("错误日志测试"+e.getMessage());
+            log.error("错误日志测试"+e.getMessage());
         }
         return "redirect:/tripPlan/queryOrder?orderNo=" + orderNo;
     }
 
-    @RequestMapping(value = "/detail")
+    @ApiOperation(value = "旅游套餐详情页面", notes = "旅游套餐详情")
+    @RequestMapping(value = "/detail",method = RequestMethod.GET)
     public String detail(String planId, Model model){
         TripPlan tripPlan = tripPlanService.findById(Integer.parseInt(planId));
         String planRoute = tripPlan.getPlanRoute();
@@ -146,7 +149,8 @@ public class TripPlanController {
         return "tripPlan/detail";
     }
 
-    @RequestMapping(value = "/queryOrder")
+    @ApiOperation(value = "查询支付宝订单接口", notes = "由支付宝同步返回接口重定向,再重定向到订单管理页面")
+    @RequestMapping(value = "/queryOrder",method = RequestMethod.GET)
     public String queryOrder(String orderNo) {
         Map<String,String> map = new HashMap<String,String>();
         //获得初始化的AlipayClient
@@ -163,14 +167,26 @@ public class TripPlanController {
             Map a = (Map)map1.get("alipay_trade_query_response");
             String tradeAtatus = a.get("trade_status").toString();
             //假如此条订单返回 “查询成功” 则进行业务逻辑
-             if(tradeAtatus.equals("TRADE_SUCCESS")) {
+            if(out_trade_no.indexOf("T")>=0 && tradeAtatus.equals("TRADE_SUCCESS")) {
+                out_trade_no = out_trade_no.substring(1,out_trade_no.length());
                 //没收藏直接购买的
-                String planId = out_trade_no.substring(14,out_trade_no.length());
-                tripPlanOrderService.CreateOrderByBought(planId,out_trade_no);
+                String planId = out_trade_no.substring(14, out_trade_no.length());
+                tripPlanOrderService.CreateOrderByBought(planId, out_trade_no);
                 //在个人订单管理中通过收藏购买的
+            }else if(out_trade_no.indexOf("H")>=0) {
+                out_trade_no = out_trade_no.substring(1,out_trade_no.length());
+                String houseId = out_trade_no.substring(14, out_trade_no.length());
+                if(tradeAtatus.equals("TRADE_SUCCESS")){
+                    //如果交易成功,则把海胆系统的交易记录数据同步到东南向系统
+
+                    houseService.order(houseService.findById(Integer.parseInt(houseId)));
+                } else {
+                    //如果交易不成功,则把海胆系统中的交易记录数据删除掉（回退）
+                    houseService.deleteById(Integer.parseInt(houseId));
+                }
             }
         }catch (Exception e){
-            log.info(e.getMessage());
+            log.error(e.getMessage());
         }
         return "redirect:/user/orderRecord";
     }

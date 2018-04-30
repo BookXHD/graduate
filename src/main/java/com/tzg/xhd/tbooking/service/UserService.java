@@ -7,7 +7,18 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface UserService extends BaseService<User>{
+    /**
+     * 保存用户信息
+     * @param user
+     * @return
+     * @throws Exception
+     */
     Answer saveUser(User user) throws Exception;
 
+    /**
+     * 根据用户名查找用户
+     * @param loginName
+     * @return
+     */
     Answer<User> findUser(String loginName);
 }

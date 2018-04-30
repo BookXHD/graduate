@@ -17,11 +17,11 @@ public class AlipayConfig {
 
     // 服务器 异步通知页面路径  需http://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
     // 支付宝系统验证支付成功之后的异步返回通知
-    public static String notify_url = "http://localhost:8081/tripPlan/shopIndex";
+    public static String notify_url = "http://localhost:8080/tripPlan/shopIndex";
 
     // 页面跳转 同步通知页面路径 需http://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
     // 用户确认支付后的跳转页面
-    public static String return_url = "http://localhost:8081/tripPlan/payed";
+    public static String return_url = "http://localhost:8080/tripPlan/payed";
 
     // 签名方式
     public static String sign_type = "RSA2";

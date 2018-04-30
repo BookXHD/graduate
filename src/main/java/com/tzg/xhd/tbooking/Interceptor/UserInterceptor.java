@@ -2,6 +2,7 @@ package com.tzg.xhd.tbooking.Interceptor;
 
 import com.tzg.xhd.tbooking.entity.User;
 import com.tzg.xhd.tbooking.util.HttpSessionUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -9,8 +10,8 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+@Slf4j
 public class UserInterceptor extends HandlerInterceptorAdapter {
-    private static Logger log = LoggerFactory.getLogger(UserInterceptor.class);
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {

@@ -718,7 +718,9 @@ public class DateUtil {
         return day_last;
     }
     public static void main(String[] args) throws ParseException {
-        System.out.println(getCurrentTimeStamp());
+        String date = "2018-04-20 19:00";
+        Date date1 = getDate(date,"yyyy-MM-dd HH:mm");
+        System.out.print(date1);
     }
 
 }

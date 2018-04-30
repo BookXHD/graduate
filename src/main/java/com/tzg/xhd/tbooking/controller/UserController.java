@@ -1,10 +1,13 @@
 package com.tzg.xhd.tbooking.controller;
 
 
+import com.tzg.xhd.tbooking.VO.HotelRecordVO;
 import com.tzg.xhd.tbooking.common.Answer;
 import com.tzg.xhd.tbooking.common.AnswerGenerator;
+import com.tzg.xhd.tbooking.entity.House;
 import com.tzg.xhd.tbooking.entity.TripPlanOrder;
 import com.tzg.xhd.tbooking.entity.User;
+import com.tzg.xhd.tbooking.service.HouseService;
 import com.tzg.xhd.tbooking.service.TripPlanOrderService;
 import com.tzg.xhd.tbooking.service.UserService;
 import com.tzg.xhd.tbooking.util.HttpSessionUtil;
@@ -27,6 +30,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+
 @Api(description = "用户操作")
 @Controller("userController")
 @RequestMapping(value = "/user")
@@ -39,13 +43,24 @@ public class UserController {
     @Autowired
     TripPlanOrderService tripPlanOrderService;
 
-    @ApiOperation(value = "用户登录", notes = "用户登录页面跳转")
+    @Autowired
+    HouseService houseService;
+
+    @ApiOperation(value = "用户登录页面", notes = "用户登录页面跳转")
     @RequestMapping(value = "/login",method = RequestMethod.GET)
     public String Index(){
         return "user/login";
     }
 
-    @ApiOperation(value = "用户检测", notes = "检测用户是否已注册 以及密码是否正确")
+    @RequestMapping(value = "/testLogin",method = RequestMethod.GET)
+    public void testLogin() {
+        User user = new User();
+        user.setLoginName("root");
+        user.setPassword("111");
+        HttpSessionUtil.setLoginUserSession(user);
+    }
+
+    @ApiOperation(value = "用户检测接口", notes = "检测用户是否已注册 以及密码是否正确")
     @RequestMapping(value = "/check",method = RequestMethod.POST)
     @ResponseBody
     @ApiImplicitParams({
@@ -64,7 +79,7 @@ public class UserController {
         return answer;
     }
 
-    @ApiOperation(value = "用户退出", notes = "用户退出")
+    @ApiOperation(value = "用户退出接口", notes = "用户退出")
     @RequestMapping(value = "/logout",method = RequestMethod.POST)
     @ResponseBody
     public Answer logout(){
@@ -72,13 +87,13 @@ public class UserController {
         return AnswerGenerator.genSuccessAnswer("已退出");
     }
 
-    @ApiOperation(value = "注册用户", notes = "注册用户页面跳转")
+    @ApiOperation(value = "注册用户页面", notes = "注册用户页面跳转")
     @RequestMapping(value = "/register",method = RequestMethod.GET)
     public String register(){
         return "user/register";
     }
 
-    @ApiOperation(value = "用户注册", notes = "新增用户 不可重复已存在的用户名")
+    @ApiOperation(value = "用户注册接口", notes = "新增用户 不可重复已存在的用户名")
     @RequestMapping(value = "/registerSave",method = RequestMethod.POST)
     @ResponseBody
     @ApiImplicitParam(name = "user",value = "用户实体类",dataType = "User",paramType = "body",required = true)
@@ -102,7 +117,7 @@ public class UserController {
         return answer;
     }
 
-    @ApiOperation(value = "用户中心", notes = "用户中心页面跳转")
+    @ApiOperation(value = "用户中心页面", notes = "用户中心页面跳转")
     @RequestMapping(value = "/userCenter",method = RequestMethod.GET)
     public String userCenter(Model model){
         User user = HttpSessionUtil.getLoginUserSession();
@@ -118,7 +133,7 @@ public class UserController {
         return "user/editInformation";
     }
 
-    @ApiOperation(value = "用户信息编辑", notes = "用户信息编辑功能")
+    @ApiOperation(value = "用户信息编辑接口", notes = "用户信息编辑功能")
     @RequestMapping(value = "/editInformationverify",method = RequestMethod.POST)
     @ResponseBody
     public Answer editInformationverify(@RequestBody User user){
@@ -127,7 +142,7 @@ public class UserController {
         return AnswerGenerator.genSuccessAnswer("编辑成功！",user);
     }
 
-    @ApiOperation(value = "头像上传", notes = "头像上传功能")
+    @ApiOperation(value = "头像上传接口", notes = "头像上传功能")
     @RequestMapping(value = "/upload",method = RequestMethod.POST)
     @ResponseBody
     public Answer upload(@RequestParam("picture")MultipartFile multipartFile, HttpServletRequest request){
@@ -153,15 +168,18 @@ public class UserController {
         return AnswerGenerator.genSuccessAnswer("上传成功!");
     }
 
-    @RequestMapping(value = "/orderRecord")
+    @ApiOperation(value = "订单管理页面", notes = "管理用户酒店和旅游套餐的订单")
+    @RequestMapping(value = "/orderRecord",method = RequestMethod.GET)
     public String orderRecord(Model model){
         User user = HttpSessionUtil.getLoginUserSession();
         List<TripPlanOrder> tripPlanOrders = tripPlanOrderService.selectByUser(user.getId());
+        List<HotelRecordVO> houses = houseService.selectByUser(user);
+        model.addAttribute("houses",houses);
         model.addAttribute("tripPlanOrders",tripPlanOrders);
         return "user/order";
     }
 
-    public String getWww() {
+    private String getWww() {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         return request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
     }

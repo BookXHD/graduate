@@ -9,5 +9,10 @@ import java.util.List;
 @Service
 public interface CityService extends BaseService<City> {
 
+    /**
+     * 根据 省份id 取出该省所有城市
+     * @param province
+     * @return
+     */
     List<City> getCityByProvince(String province);
 }
