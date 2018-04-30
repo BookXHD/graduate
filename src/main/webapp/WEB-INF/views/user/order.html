@@ -42,38 +42,76 @@
         </div><!-- /.navbar-collapse -->
     </nav><!-- /navbar -->
 
-    <table border="0" class="table table-hover" width="100%">
-        <thead>
-        <th>订单号</th>
-        <th>套餐名字</th>
-        <th>状态</th>
-        <th>操作</th>
-        </thead>
-        <tbody>
-        #foreach($tripPlanOrder in $tripPlanOrders)
-        <tr>
-            <td><label class="label label-info">$!{tripPlanOrder.orderNo}</label></td>
-            <td>
-                <button type="button" class="btn btn-primary btn_detail" value="$!{tripPlanOrder.tripPlanId}">$!{tripPlanOrder.tripPlanName}</button>
-            </td>
-            <td><label class="label label-info">
-                #if($!{tripPlanOrder.payState} == 1) 已收藏
-                #elseif($!{tripPlanOrder.payState} == 2) 已支付
-                #end
-            </label></td>
-            <td>
-                #if($!{tripPlanOrder.payState} == 1)
-                <button type="button" class="btn btn-primary btn_buy" value="$!{tripPlanOrder.tripPlanId}">立即购买</button>
-                #end
-                <button type="button" class="btn btn-primary btn_detail" value="$!{tripPlanOrder.tripPlanId}">行程详情</button>
-            </td>
-        </tr>
-        #end
-        </tbody>
-    </table>
+    <div class="tabs-container" id="myTab">
+        <ul class="nav nav-tabs" role="tablist" id="forms_tab">
+            <li class="active" role="presentation"><a href="#trip_tab_content" data-toggle="tab">旅游订单</a></li>
+            <li role="presentation"><a href="#hotel_tab_content" data-toggle="tab">酒店订单</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane" role="tabpanel" id="trip_tab_content">
+                <table border="0" class="table table-hover" width="100%">
+                    <thead>
+                    <th>订单号</th>
+                    <th>套餐名字</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                    </thead>
+                    <tbody>
+                    #foreach($tripPlanOrder in $tripPlanOrders)
+                    <tr>
+                        <td><label class="label label-info">$!{tripPlanOrder.orderNo}</label></td>
+                        <td>
+                            <button type="button" class="btn btn-primary btn_detail" value="$!{tripPlanOrder.tripPlanId}">$!{tripPlanOrder.tripPlanName}</button>
+                        </td>
+                        <td><label class="label label-info">
+                            #if($!{tripPlanOrder.payState} == 1) 已收藏
+                            #elseif($!{tripPlanOrder.payState} == 2) 已支付
+                            #end
+                        </label></td>
+                        <td>
+                            #if($!{tripPlanOrder.payState} == 1)
+                            <button type="button" class="btn btn-primary btn_buy" value="$!{tripPlanOrder.tripPlanId}">立即购买</button>
+                            #end
+                            <button type="button" class="btn btn-primary btn_detail" value="$!{tripPlanOrder.tripPlanId}">行程详情</button>
+                        </td>
+                    </tr>
+                    #end
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="tab-pane active" role="tabpanel" id="hotel_tab_content">
+                <table border="0" class="table table-hover" width="100%">
+                    <thead>
+                    <th>订单号</th>
+                    <th>旅馆名字</th>
+                    <th>房间数</th>
+                    <th>总价</th>
+                    <th>下单时间</th>
+                    <th></th>
+                    </thead>
+                    <tbody>
+                    #foreach($house in $houses)
+                    <tr>
+                        <td><label class="label label-info">$!{house.orderNo}</label></td>
+                        <td><label class="label label-info">$!{house.hotelName}</label></td>
+                        <td><label class="label label-info">$!{house.roomAmount}</label></td>
+                        <td><label class="label label-info">$!{house.lastPay}</label></td>
+                        <td>
+                            <button type="button" class="btn btn-primary btn_house_detail" value="$!{house.id}">订单详情</button>
+                        </td>
+                    </tr>
+                    #end
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
 <script src="$!{www}/js/jquery-3.2.1.min.js"></script>
 <srcipt src="$!{www}/js/bootstrap/bootstrap.min.js">
 </srcipt><script src="$!{www}/js/layer/layer.js"></script>
 <script src="$!{www}/js/tripPlan/tripPlan.js"></script>
+
 </body>
 </html>
