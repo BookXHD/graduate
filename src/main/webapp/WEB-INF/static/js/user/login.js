@@ -12,7 +12,9 @@ $(function(){
                 },
                 success:function (data) {
                     layer.msg(data.message);
-                    $(window).attr('location','/');//跳转到主页
+                    if(data.success){
+                        $(window).attr('location','/');//跳转到主页
+                    }
                 }
             });
     });

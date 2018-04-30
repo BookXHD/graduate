@@ -16,11 +16,24 @@ $(function(){
 
    //购买
     $(".btn_buy").on("click",function () {
-        location.href="/tripPlan/pay?planId="+$(this).attr("value");
+        location.href="/tripPlan/pay?planId="+$(this).attr("value")+"&person="+$("#person").val();
     });
 
-    //订单详情
+    //旅游套餐订单详情
     $(".btn_detail").on("click",function () {
+        layer.open({
+            type: 2,
+            title: '详情',
+            shadeClose: true,
+            shade: false,
+            maxmin: true, //开启最大化最小化按钮
+            area: ['800px', '600px'],
+            content: '/tripPlan/detail?planId='+$(this).attr("value")
+        });
+    });
+
+    //酒店订单详情
+    $(".btn_house_detail").on("click",function () {
         layer.open({
             type: 2,
             title: '详情',
