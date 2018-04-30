@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tzg.xhd.tbooking.mapper.HouseMapper" >
+  <resultMap id="BaseResultMap" type="com.tzg.xhd.tbooking.entity.House" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="house_id" property="houseId" jdbcType="INTEGER" />
+    <result column="room_time" property="roomTime" jdbcType="TIMESTAMP" />
+    <result column="room_days" property="roomDays" jdbcType="INTEGER" />
+    <result column="room_amount" property="roomAmount" jdbcType="INTEGER" />
+    <result column="ready_pay" property="readyPay" jdbcType="INTEGER" />
+    <result column="last_pay" property="lastPay" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+</mapper>

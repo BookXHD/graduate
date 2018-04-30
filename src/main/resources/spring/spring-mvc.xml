@@ -3,10 +3,10 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:mvn="http://www.springframework.org/schema/mvc"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
-	http://www.springframework.org/schema/context  http://www.springframework.org/schema/context/spring-context-4.0.xsd
-	http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
-	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+	http://www.springframework.org/schema/context  http://www.springframework.org/schema/context/spring-context-4.2.xsd
+	http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd">
 
     <!-- 扫描web相关的bean -->
     <context:component-scan base-package="com.tzg.xhd.tbooking.controller"/>
@@ -19,6 +19,7 @@
 
     <!--向容器自动注入配置-->
     <context:annotation-config />
+
 
     <!-- 静态资源默认servlet配置 -->
     <mvc:default-servlet-handler/>
@@ -36,10 +37,17 @@
 
     <!--拦截器-->
     <mvc:interceptors>
+        <!--过滤所有请求，处理跨域请求问题-->
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="com.tzg.xhd.tbooking.Interceptor.CorsInterceptor"></bean>
+        </mvc:interceptor>
         <mvc:interceptor>
             <!--不拦截所有请求，只拦截必需用户登录权限的url-->
             <mvc:mapping path="/user/userCenter"/>
             <mvc:mapping path="/user/orderRecord"/>
+            <mvc:mapping path="/tripPlan/pay"/>
+            <mvc:mapping path="/house/roomDetail"/>
             <!--不拦截静态资源-->
             <mvc:exclude-mapping path="/js/**"/>
             <mvc:exclude-mapping path="/css/**"/>
@@ -47,6 +55,27 @@
             <bean class="com.tzg.xhd.tbooking.Interceptor.UserInterceptor"></bean>
         </mvc:interceptor>
     </mvc:interceptors>
+
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+                <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                    <property name="supportedMediaTypes">
+                        <list>
+                            <value>text/html; charset=utf-8</value>
+                            <value>application/json; charset=utf-8</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="org.springframework.http.converter.ResourceHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.xml.SourceHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.xml.XmlAwareFormHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"></bean>
+            </list>
+        </property>
+    </bean>
 
     <bean id="validator"
           class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">

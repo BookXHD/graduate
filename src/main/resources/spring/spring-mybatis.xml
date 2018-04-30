@@ -17,6 +17,8 @@
     <!-- 配置数据库相关参数properties的属性：${url} -->
     <context:property-placeholder location="classpath:properties/jdbc.properties"/>
 
+
+
     <!-- 阿里 druid 数据库连接池 -->
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
         <!-- 数据库基本信息配置 -->
