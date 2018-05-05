@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -24,12 +25,14 @@ public class TripPlanOrderServiceImpl extends AbstractService<TripPlanOrder> imp
     private TripPlanService tripPlanService;
 
     @Override
-    public void CreateOrderByCollect(String planId) {
+    public void CreateOrderByCollect(String planId, String person) {
         TripPlanOrder tripPlanOrder = new TripPlanOrder();
         tripPlanOrder.setTripPlanId(Integer.parseInt(planId));
         tripPlanOrder.setUserId(HttpSessionUtil.getLoginUserSession().getId());
         tripPlanOrder.setPayState(1);
+        tripPlanOrder.setPersonAmount(Integer.parseInt(person));
         TripPlan tripPlan = tripPlanService.findById(tripPlanOrder.getTripPlanId());
+        tripPlanOrder.setPayAmount(new BigDecimal(person).multiply(tripPlan.getPrice()));
         tripPlanOrder.setTripPlanName(tripPlan.getName());
         save(tripPlanOrder);
     }
@@ -47,14 +50,16 @@ public class TripPlanOrderServiceImpl extends AbstractService<TripPlanOrder> imp
     }
 
     @Override
-    public void CreateOrderByBought(String planId, String out_trade_no) {
+    public void CreateOrderByBought(String planId, String out_trade_no, String totalAmount) {
         TripPlanOrder tripPlanOrder = new TripPlanOrder();
         tripPlanOrder.setTripPlanId(Integer.parseInt(planId));
         tripPlanOrder.setUserId(HttpSessionUtil.getLoginUserSession().getId());
         tripPlanOrder.setPayState(2);
         tripPlanOrder.setOrderTime(new Date());
         tripPlanOrder.setOrderNo(out_trade_no);
+        tripPlanOrder.setPayAmount(new BigDecimal(totalAmount));
         TripPlan tripPlan = tripPlanService.findById(tripPlanOrder.getTripPlanId());
+        tripPlanOrder.setPersonAmount(tripPlanOrder.getPayAmount().divide(tripPlan.getPrice()).intValue());
         tripPlanOrder.setTripPlanName(tripPlan.getName());
         save(tripPlanOrder);
         tripPlan.setRemainAssign(tripPlan.getRemainAssign()-1);

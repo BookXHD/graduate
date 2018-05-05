@@ -1,5 +1,6 @@
 package com.tzg.xhd.tbooking.controller;
 
+import com.tzg.xhd.tbooking.VO.TripPlanVO;
 import com.tzg.xhd.tbooking.common.Answer;
 import com.tzg.xhd.tbooking.common.AnswerGenerator;
 import com.tzg.xhd.tbooking.emuns.ProvinceEmuns;
@@ -9,6 +10,7 @@ import com.tzg.xhd.tbooking.entity.User;
 import com.tzg.xhd.tbooking.service.CityService;
 import com.tzg.xhd.tbooking.service.TripPlanService;
 import com.tzg.xhd.tbooking.util.HttpSessionUtil;
+import com.tzg.xhd.tbooking.util.RedisUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -55,7 +57,7 @@ public class CityController {
         City city = cityService.findById(Integer.parseInt(cityId));
         TripPlan tripPlan = new TripPlan();
         tripPlan.setCityId(Integer.parseInt(cityId));
-        List<TripPlan> tripPlans = tripPlanService.findByModel(tripPlan);
+        List<TripPlanVO> tripPlans = tripPlanService.getTripPlanVOList(tripPlan);
         model.addAttribute("user",HttpSessionUtil.getLoginUserSession());
         model.addAttribute("city",city);
         model.addAttribute("tripPlans",tripPlans);

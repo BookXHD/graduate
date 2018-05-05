@@ -16,8 +16,10 @@ import com.tzg.xhd.tbooking.service.TripPlanOrderService;
 import com.tzg.xhd.tbooking.service.TripPlanService;
 import com.tzg.xhd.tbooking.util.DateUtil;
 import com.tzg.xhd.tbooking.util.HttpSessionUtil;
+import com.tzg.xhd.tbooking.util.RedisUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.ui.Model;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,14 +50,14 @@ public class TripPlanController {
     @ApiOperation(value = "旅游套餐收藏接口", notes = "收藏旅游套餐")
     @RequestMapping(value = "/collectPlanSave",method = RequestMethod.GET)
     @ResponseBody
-    public Answer collectPlanSave(String planId){
+    public Answer collectPlanSave(String planId, String person){
         Answer answer = new Answer();
         User user = HttpSessionUtil.getLoginUserSession();
         if(null == user) {
             return AnswerGenerator.genFailAnswer("请先登录！");
         }
         try{
-            tripPlanOrderService.CreateOrderByCollect(planId);
+            tripPlanOrderService.CreateOrderByCollect(planId, person);
             answer = AnswerGenerator.genSuccessAnswer("收藏成功！");
         }catch (Exception e){
             log.error(e.getMessage());
@@ -78,6 +80,10 @@ public class TripPlanController {
 
         //商户订单号，商户网站订单系统中唯一订单号，必填
         String out_trade_no = "T"+DateUtil.getCurrentTimeStamp()+planId;
+        //如果人数没有输入，则默认为1
+        if(StringUtils.isBlank(person)){
+            person = "1";
+        }
         //付款金额，必填
         Double all = tripPlan.getPrice().doubleValue() * Double.parseDouble(person);
         String total_amount = all.toString();
@@ -141,11 +147,22 @@ public class TripPlanController {
     @ApiOperation(value = "旅游套餐详情页面", notes = "旅游套餐详情")
     @RequestMapping(value = "/detail",method = RequestMethod.GET)
     public String detail(String planId, Model model){
-        TripPlan tripPlan = tripPlanService.findById(Integer.parseInt(planId));
-        String planRoute = tripPlan.getPlanRoute();
-        String[] daysPlan = planRoute.split(";");
-        model.addAttribute("tripPlan",tripPlan);
-        model.addAttribute("daysPlan",daysPlan);
+        try {
+            TripPlan tripPlan = tripPlanService.findById(Integer.parseInt(planId));
+            String planRoute = tripPlan.getPlanRoute();
+            String[] daysPlan = planRoute.split(";");
+            String amountStr = RedisUtil.getKey("tripPlan"+planId);
+            if(StringUtils.isBlank(amountStr)) {
+                amountStr = "0";
+            }
+            int amount = Integer.valueOf(amountStr).intValue();
+            amount++;
+            RedisUtil.setKey("tripPlan"+planId,new Integer(amount).toString());
+            model.addAttribute("tripPlan", tripPlan);
+            model.addAttribute("daysPlan", daysPlan);
+        }catch (Exception e){
+            log.error(e.getMessage());
+        }
         return "tripPlan/detail";
     }
 
@@ -166,19 +183,20 @@ public class TripPlanController {
             Map map1 = (Map)JSONObject.parseObject(result);
             Map a = (Map)map1.get("alipay_trade_query_response");
             String tradeAtatus = a.get("trade_status").toString();
+            String totalAmount = a.get("total_amount").toString();
             //假如此条订单返回 “查询成功” 则进行业务逻辑
             if(out_trade_no.indexOf("T")>=0 && tradeAtatus.equals("TRADE_SUCCESS")) {
                 out_trade_no = out_trade_no.substring(1,out_trade_no.length());
                 //没收藏直接购买的
                 String planId = out_trade_no.substring(14, out_trade_no.length());
-                tripPlanOrderService.CreateOrderByBought(planId, out_trade_no);
+                tripPlanOrderService.CreateOrderByBought(planId, out_trade_no, totalAmount);
                 //在个人订单管理中通过收藏购买的
+
             }else if(out_trade_no.indexOf("H")>=0) {
                 out_trade_no = out_trade_no.substring(1,out_trade_no.length());
                 String houseId = out_trade_no.substring(14, out_trade_no.length());
                 if(tradeAtatus.equals("TRADE_SUCCESS")){
                     //如果交易成功,则把海胆系统的交易记录数据同步到东南向系统
-
                     houseService.order(houseService.findById(Integer.parseInt(houseId)));
                 } else {
                     //如果交易不成功,则把海胆系统中的交易记录数据删除掉（回退）

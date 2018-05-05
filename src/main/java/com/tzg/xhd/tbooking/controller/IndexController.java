@@ -28,7 +28,8 @@ public class IndexController {
     @ResponseBody
     public boolean ifLogin(){
         User user = HttpSessionUtil.getLoginUserSession();
-        if(null != user){            return true;
+        if(null != user){
+            return true;
         }
         return false;
     }
@@ -45,4 +46,5 @@ public class IndexController {
         answer = AnswerGenerator.genSuccessAnswer(user);
         return answer;
     }
+
 }

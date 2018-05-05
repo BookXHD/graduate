@@ -13,7 +13,7 @@ public interface TripPlanOrderService extends BaseService<TripPlanOrder> {
      * 收藏旅游套餐生成订单记录
      * @param planId
      */
-    void CreateOrderByCollect(String planId);
+    void CreateOrderByCollect(String planId, String person);
 
     /**
      * 订单记录：收藏->已支付
@@ -25,7 +25,7 @@ public interface TripPlanOrderService extends BaseService<TripPlanOrder> {
      * 直接购买旅游套餐生成订单记录
      * @param planId
      */
-    void CreateOrderByBought(String planId, String out_trade_no);
+    void CreateOrderByBought(String planId, String out_trade_no, String totalAmount);
 
     /**
      * 根据用户Id获得该用户的所有订单记录
