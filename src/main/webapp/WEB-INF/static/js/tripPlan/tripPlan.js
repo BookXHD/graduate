@@ -2,7 +2,7 @@ $(function(){
     //收藏
    $(".btn_collect").on("click",function () {
       $.ajax({
-          url:'/tripPlan/collectPlanSave?planId='+$(this).attr("value"),
+          url:'/tripPlan/collectPlanSave?planId='+$(this).attr("value")+"&person="+$("#person").val(),
           type:'GET',
           async:false,
           success:function(data){
@@ -16,6 +16,7 @@ $(function(){
 
    //购买
     $(".btn_buy").on("click",function () {
+        console.log($("#person").val());
         location.href="/tripPlan/pay?planId="+$(this).attr("value")+"&person="+$("#person").val();
     });
 

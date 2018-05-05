@@ -65,21 +65,24 @@
         <div class="form-horizontal">
             <div class="col-md-2">
                 <button type="button" class="btn btn-primary btn_detail" value="$!{tripPlan.id}">$!{tripPlan.name}</button>
+                <label class="label label-info">浏览次数：$!{tripPlan.viewCount} </label>
             </div>
-            <div class="col-md-1">
-                <label class="label label-info">$!{tripPlan.price} 元</label>
+            <div class="col-md-8">
+                <div class="col-md-2">
+                    <label class="label label-info">$!{tripPlan.price} 元</label>
+                </div>
+                <div class="col-md-6">
+                    <label class="label label-info">$!{tripPlan.planDescribe}</label>
+                </div>
+                <div class="col-md-7">
+                    <label class="label label-info">$!{tripPlan.startDate}~$!{tripPlan.endDate}</label>
+                </div>
+                <div class="col-md-1">
+                    <label class="label label-info">剩余名额/总名额:$!{tripPlan.remainAssign}/$!{tripPlan.totalPerson}</label>
+                </div>
             </div>
-            <div class="col-md-6">
-                <label class="label label-info">$!{tripPlan.planDescribe}</label>
-            </div>
-            <div class="col-md-4">
-                <label class="label label-info">$!{tripPlan.startDate}~$!{tripPlan.endDate}</label>
-            </div>
-            <div class="col-md-4">
-                <label class="label label-info">剩余名额/总名额:$!{tripPlan.remainAssign}/$!{tripPlan.totalPerson}</label>
-            </div>
-            <div class="col-md-1">
-                <input type="text" name="person" id="person"/>
+            <div class="col-md-2">
+                <input type="text" name="person" class="person"/>
             </div>
             <div class="col-md-1">
                 <button type="button" class="btn btn-primary btn_buy" value="$!{tripPlan.id}">购买</button>
