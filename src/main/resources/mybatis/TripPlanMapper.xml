@@ -5,6 +5,7 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="rate" property="rate" jdbcType="INTEGER" />
     <result column="img" property="img" jdbcType="VARCHAR" />
     <result column="city_id" property="cityId" jdbcType="INTEGER" />
     <result column="spot_ids" property="spotIds" jdbcType="VARCHAR" />
