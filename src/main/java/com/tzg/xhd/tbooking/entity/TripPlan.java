@@ -34,6 +34,11 @@ public class TripPlan implements Serializable {
     private BigDecimal price;
 
     /**
+     * 选择率 单位%
+     */
+    private Integer rate;
+
+    /**
      * 图片
      */
     private String img;
@@ -129,6 +134,14 @@ public class TripPlan implements Serializable {
      */
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public Integer getRate() {
+        return rate;
+    }
+
+    public void setRate(Integer rate) {
+        this.rate = rate;
     }
 
     /**

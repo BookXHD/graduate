@@ -27,6 +27,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -144,12 +145,13 @@ public class TripPlanController {
         return "redirect:/tripPlan/queryOrder?orderNo=" + orderNo;
     }
 
-    @ApiOperation(value = "旅游套餐详情页面", notes = "旅游套餐详情")
+    @ApiIgnore()
     @RequestMapping(value = "/detail",method = RequestMethod.GET)
     public String detail(String planId, Model model){
         try {
             TripPlan tripPlan = tripPlanService.findById(Integer.parseInt(planId));
             String planRoute = tripPlan.getPlanRoute();
+            planRoute = planRoute.replace(","," -> ");
             String[] daysPlan = planRoute.split(";");
             String amountStr = RedisUtil.getKey("tripPlan"+planId);
             if(StringUtils.isBlank(amountStr)) {
@@ -164,6 +166,34 @@ public class TripPlanController {
             log.error(e.getMessage());
         }
         return "tripPlan/detail";
+    }
+
+    @ApiOperation(value = "旅游路线详情页面", notes = "点击旅游路线之后跳出来的旅游路线详情页面")
+    @RequestMapping(value = "/tripPlanDeatail",method = RequestMethod.GET)
+    @ResponseBody
+    public Answer tripPlanDeatail(String id) {
+        Answer answer = new Answer();
+        try {
+            TripPlan tripPlan = tripPlanService.findById(Integer.parseInt(id));
+            String planRoute = tripPlan.getPlanRoute();
+            planRoute = planRoute.replace(","," -> ");
+            String[] daysPlan = planRoute.split(";");
+            String amountStr = RedisUtil.getKey("tripPlan"+id);
+            if(StringUtils.isBlank(amountStr)) {
+                amountStr = "0";
+            }
+            int amount = Integer.valueOf(amountStr).intValue();
+            amount++;
+            RedisUtil.setKey("tripPlan"+id,new Integer(amount).toString());
+            Map<String,Object> map = new HashMap<>();
+            map.put("tripPlan", tripPlan);
+            map.put("daysPlan", daysPlan);
+            answer = AnswerGenerator.genSuccessAnswer(map);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            answer = AnswerGenerator.genFailAnswer("旅游路线详情页面后台请求出错！");
+        }
+        return answer;
     }
 
     @ApiOperation(value = "查询支付宝订单接口", notes = "由支付宝同步返回接口重定向,再重定向到订单管理页面")

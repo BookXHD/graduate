@@ -13,6 +13,7 @@ import com.tzg.xhd.tbooking.util.HttpSessionUtil;
 import com.tzg.xhd.tbooking.util.RedisUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,8 +21,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import springfox.documentation.annotations.ApiIgnore;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Api(description = "城市")
 @Slf4j
@@ -51,7 +55,7 @@ public class CityController {
         return "city/citys";
     }
 
-    @ApiOperation(value = "城市详情页面", notes = "点击城市之后跳出来的城市详情页面")
+    @ApiIgnore()
     @RequestMapping(value = "/city",method = RequestMethod.GET)
     public String city(Model model, String cityId){
         City city = cityService.findById(Integer.parseInt(cityId));
@@ -63,6 +67,27 @@ public class CityController {
         model.addAttribute("tripPlans",tripPlans);
         model.addAttribute("province",ProvinceEmuns.getNameById(city.getProvince()));
         return "city/cityDetail";
+    }
+
+    @ApiOperation(value = "城市详情页面", notes = "点击城市之后跳出来的城市详情页面 返回map,放了城市数据和对应城市的旅游路线数据")
+    @RequestMapping(value = "/cityDetail",method = RequestMethod.GET)
+    @ResponseBody
+    public Answer cityDetail(String id){
+        Answer answer = new Answer();
+        try {
+        City city = cityService.findById(Integer.parseInt(id));
+        TripPlan tripPlan = new TripPlan();
+        tripPlan.setCityId(Integer.parseInt(id));
+        List<TripPlanVO> tripPlans = tripPlanService.getTripPlanVOList(tripPlan);
+        Map<String,Object> map = new HashMap<>();
+        map.put("city",city);
+        map.put("tripPlans",tripPlans);
+            answer = AnswerGenerator.genSuccessAnswer(map);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            answer = AnswerGenerator.genFailAnswer("城市详情页面后台请求出错！");
+        }
+        return answer;
     }
 
 }

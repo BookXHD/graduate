@@ -12,6 +12,7 @@ import com.tzg.xhd.tbooking.service.TripPlanOrderService;
 import com.tzg.xhd.tbooking.service.UserService;
 import com.tzg.xhd.tbooking.util.HttpSessionUtil;
 import io.swagger.annotations.*;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j    .Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -32,6 +34,7 @@ import java.util.List;
 
 
 @Api(description = "用户操作")
+@Slf4j
 @Controller("userController")
 @RequestMapping(value = "/user")
 public class UserController {
@@ -168,7 +171,7 @@ public class UserController {
         return AnswerGenerator.genSuccessAnswer("上传成功!");
     }
 
-    @ApiOperation(value = "订单管理页面", notes = "管理用户酒店和旅游套餐的订单")
+    @ApiIgnore()
     @RequestMapping(value = "/orderRecord",method = RequestMethod.GET)
     public String orderRecord(Model model){
         User user = HttpSessionUtil.getLoginUserSession();
@@ -177,6 +180,22 @@ public class UserController {
         model.addAttribute("houses",houses);
         model.addAttribute("tripPlanOrders",tripPlanOrders);
         return "user/order";
+    }
+
+    @ApiOperation(value = "订单管理页面", notes = "管理用户酒店和旅游套餐的订单")
+    @RequestMapping(value = "/orderMange",method = RequestMethod.GET)
+    @ResponseBody
+    public Answer orderMange() {
+        Answer answer = new Answer();
+        try {
+            User user = HttpSessionUtil.getLoginUserSession();
+            List<HotelRecordVO> houses = houseService.selectByUser(user);
+            answer = AnswerGenerator.genSuccessAnswer(houses);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            answer = AnswerGenerator.genFailAnswer("订单管理页面后台请求出错！");
+        }
+        return answer;
     }
 
     private String getWww() {
