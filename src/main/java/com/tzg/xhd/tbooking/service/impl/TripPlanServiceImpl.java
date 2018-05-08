@@ -13,8 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service("tripPlanService")
 @Slf4j
@@ -31,11 +30,25 @@ public class TripPlanServiceImpl extends AbstractService<TripPlan> implements Tr
             for(TripPlan tripPlan1 : tripPlans){
                 TripPlanVO tripPlanVO = new TripPlanVO();
                 BeanUtils.copyProperties(tripPlan1,tripPlanVO);
+                //浏览次数
                 String viewCount = RedisUtil.getKey("tripPlan"+tripPlan1.getId());
                 if(StringUtils.isBlank(viewCount)){
                     viewCount = "0";
                 }
                 tripPlanVO.setViewCount(new Integer(viewCount));
+                //旅游路线
+                String planRoute = tripPlan1.getPlanRoute();
+                String[] daysPlan = planRoute.split(";");
+                Map<String,Object> daysPlanMap = new HashMap<>();
+                for(String day : daysPlan) {
+                    String[] plan = day.split(":");
+                    String time = plan[0];
+                    String spots = plan[1];
+                    String[] spot = spots.split(",");
+                    List<String> list =  Arrays.asList(spot);
+                    daysPlanMap.put(time,list);
+                }
+                tripPlanVO.setDaysPlan(daysPlanMap);
                 tripPlanVOList.add(tripPlanVO);
             }
         } catch (Exception e){
@@ -43,5 +56,6 @@ public class TripPlanServiceImpl extends AbstractService<TripPlan> implements Tr
         }
         return tripPlanVOList;
     }
+
 
 }

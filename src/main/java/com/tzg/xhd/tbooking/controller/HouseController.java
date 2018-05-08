@@ -60,6 +60,14 @@ public class HouseController {
         return "house/roomerDetail";
     }
 
+    /**
+     * 住宿支付接口
+     * @param houseId     酒店id
+     * @param roomDays    住几天
+     * @param roomAmount  房间数
+     * @param roomTimeStr 入住时间
+     * @param rep
+     */
     @ApiOperation(value = "住宿支付接口", notes = "调动支付宝的支付接口")
     @RequestMapping(value = "/pay",method = RequestMethod.GET)
     public void pay(String houseId, String roomDays, String roomAmount, String roomTimeStr,HttpServletResponse rep){
