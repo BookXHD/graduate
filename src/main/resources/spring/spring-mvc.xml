@@ -34,14 +34,17 @@
         <!--<property name="prefix" value="/WEB-INF/views/"/>-->
         <!--<property name="suffix" value=".html"/>-->
     <!--</bean>-->
-
+    <!-- -->
+    <mvc:cors>
+        <mvc:mapping path="/**" />
+    </mvc:cors>
     <!--拦截器-->
     <mvc:interceptors>
         <!--过滤所有请求，处理跨域请求问题-->
-        <mvc:interceptor>
-            <mvc:mapping path="/**"/>
-            <bean class="com.tzg.xhd.tbooking.Interceptor.CorsInterceptor"></bean>
-        </mvc:interceptor>
+        <!--<mvc:interceptor>-->
+            <!--<mvc:mapping path="/**"/>-->
+            <!--<bean class="com.tzg.xhd.tbooking.Interceptor.CorsInterceptor"></bean>-->
+        <!--</mvc:interceptor>-->
         <mvc:interceptor>
             <!--不拦截所有请求，只拦截必需用户登录权限的url-->
             <mvc:mapping path="/user/userCenter"/>
