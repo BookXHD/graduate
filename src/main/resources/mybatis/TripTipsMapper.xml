@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tzg.xhd.tbooking.mapper.TripTipsMapper" >
+  <resultMap id="BaseResultMap" type="com.tzg.xhd.tbooking.entity.TripTips" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="city_id" property="cityId" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="route" property="route" jdbcType="VARCHAR" />
+    <result column="spit_time" property="spitTime" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.tzg.xhd.tbooking.entity.TripTips" extends="BaseResultMap" >
+    <result column="scenic_tips" property="scenicTips" jdbcType="LONGVARCHAR" />
+    <result column="traffic_tips" property="trafficTips" jdbcType="LONGVARCHAR" />
+    <result column="ticket_tips" property="ticketTips" jdbcType="LONGVARCHAR" />
+    <result column="food_tips" property="foodTips" jdbcType="LONGVARCHAR" />
+    <result column="hotel_tips" property="hotelTips" jdbcType="LONGVARCHAR" />
+  </resultMap>
+</mapper>
