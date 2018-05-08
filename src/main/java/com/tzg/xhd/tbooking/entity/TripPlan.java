@@ -39,6 +39,11 @@ public class TripPlan implements Serializable {
     private Integer rate;
 
     /**
+     * 旅行天数
+     */
+    private Integer days;
+
+    /**
      * 图片
      */
     private String img;
@@ -142,6 +147,14 @@ public class TripPlan implements Serializable {
 
     public void setRate(Integer rate) {
         this.rate = rate;
+    }
+
+    public Integer getDays() {
+        return days;
+    }
+
+    public void setDays(Integer days) {
+        this.days = days;
     }
 
     /**
