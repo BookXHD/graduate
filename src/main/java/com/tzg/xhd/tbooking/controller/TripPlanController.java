@@ -11,10 +11,7 @@ import com.tzg.xhd.tbooking.VO.TripTipsVO;
 import com.tzg.xhd.tbooking.common.Answer;
 import com.tzg.xhd.tbooking.common.AnswerGenerator;
 import com.tzg.xhd.tbooking.config.AlipayConfig;
-import com.tzg.xhd.tbooking.entity.City;
-import com.tzg.xhd.tbooking.entity.TripPlan;
-import com.tzg.xhd.tbooking.entity.TripTips;
-import com.tzg.xhd.tbooking.entity.User;
+import com.tzg.xhd.tbooking.entity.*;
 import com.tzg.xhd.tbooking.service.*;
 import com.tzg.xhd.tbooking.util.DateUtil;
 import com.tzg.xhd.tbooking.util.HttpSessionUtil;
@@ -55,6 +52,9 @@ public class TripPlanController {
 
     @Autowired
     private TripTipsService tripTipsService;
+
+    @Autowired
+    private SpotTicketService spotTicketService;
 
     @ApiOperation(value = "旅游套餐收藏接口", notes = "收藏旅游套餐")
     @RequestMapping(value = "/collectPlanSave",method = RequestMethod.GET)
@@ -177,7 +177,7 @@ public class TripPlanController {
     }
 
     @ApiOperation(value = "旅游路线详情页面", notes = "点击旅游路线之后跳出来的旅游路线详情页面")
-    @RequestMapping(value = "/tripPlanDetail",method = RequestMethod.POST)
+    @RequestMapping(value = "/tripPlanDetail",method = RequestMethod.GET)
     @ResponseBody
     public Answer tripPlanDeatail(String id) {
         Answer answer = new Answer();
@@ -197,6 +197,7 @@ public class TripPlanController {
             map.put("city",city);
             map.put("tripPlan", tripPlan);
             map.put("tripTips", tripTipsVOS);
+            map.put("viewCount",new Integer(amount).toString());
             answer = AnswerGenerator.genSuccessAnswer(map);
         } catch (Exception e) {
             log.error(e.getMessage());
@@ -205,6 +206,22 @@ public class TripPlanController {
         return answer;
     }
 
+    @ApiOperation(value = "景点门票攻略", notes = "通过旅游攻略的id获取改攻略下的景点门票攻略")
+    @RequestMapping(value = "/spotTicket",method = RequestMethod.GET)
+    @ResponseBody
+    public Answer spotTicket(String id) {
+        Answer answer = new Answer();
+        try {
+            SpotTicket spotTicket = new SpotTicket();
+            spotTicket.setTripTipsId(Integer.parseInt(id));
+            List<SpotTicket> spotTickets = spotTicketService.findByModel(spotTicket);
+            answer = AnswerGenerator.genSuccessAnswer(spotTickets);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            answer = AnswerGenerator.genFailAnswer("旅游路线详情页面后台请求出错！");
+        }
+        return answer;
+    }
     @ApiOperation(value = "查询支付宝订单接口", notes = "由支付宝同步返回接口重定向,再重定向到订单管理页面")
     @RequestMapping(value = "/queryOrder",method = RequestMethod.GET)
     public String queryOrder(String orderNo) {
