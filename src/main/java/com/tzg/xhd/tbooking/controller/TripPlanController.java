@@ -9,8 +9,10 @@ import com.alipay.api.request.AlipayTradeQueryRequest;
 import com.tzg.xhd.tbooking.common.Answer;
 import com.tzg.xhd.tbooking.common.AnswerGenerator;
 import com.tzg.xhd.tbooking.config.AlipayConfig;
+import com.tzg.xhd.tbooking.entity.City;
 import com.tzg.xhd.tbooking.entity.TripPlan;
 import com.tzg.xhd.tbooking.entity.User;
+import com.tzg.xhd.tbooking.service.CityService;
 import com.tzg.xhd.tbooking.service.HouseService;
 import com.tzg.xhd.tbooking.service.TripPlanOrderService;
 import com.tzg.xhd.tbooking.service.TripPlanService;
@@ -47,6 +49,9 @@ public class TripPlanController {
 
     @Autowired
     private HouseService houseService;
+
+    @Autowired
+    private CityService cityService;
 
     @ApiOperation(value = "旅游套餐收藏接口", notes = "收藏旅游套餐")
     @RequestMapping(value = "/collectPlanSave",method = RequestMethod.GET)
@@ -169,15 +174,24 @@ public class TripPlanController {
     }
 
     @ApiOperation(value = "旅游路线详情页面", notes = "点击旅游路线之后跳出来的旅游路线详情页面")
-    @RequestMapping(value = "/tripPlanDeatail",method = RequestMethod.GET)
+    @RequestMapping(value = "/tripPlanDetail",method = RequestMethod.GET)
     @ResponseBody
     public Answer tripPlanDeatail(String id) {
         Answer answer = new Answer();
         try {
             TripPlan tripPlan = tripPlanService.findById(Integer.parseInt(id));
+            City city = cityService.findById(tripPlan.getCityId());
             String planRoute = tripPlan.getPlanRoute();
-            planRoute = planRoute.replace(","," -> ");
             String[] daysPlan = planRoute.split(";");
+            Map<String,Object> daysPlanMap = new HashMap<>();
+            for(String day : daysPlan) {
+                String[] plan = day.split(":");
+                String time = plan[0];
+                String spots = plan[1];
+                String[] spot = spots.split(",");
+                List<String> list =  Arrays.asList(spot);
+                daysPlanMap.put(time,list);
+            }
             String amountStr = RedisUtil.getKey("tripPlan"+id);
             if(StringUtils.isBlank(amountStr)) {
                 amountStr = "0";
@@ -186,8 +200,9 @@ public class TripPlanController {
             amount++;
             RedisUtil.setKey("tripPlan"+id,new Integer(amount).toString());
             Map<String,Object> map = new HashMap<>();
+            map.put("city",city);
             map.put("tripPlan", tripPlan);
-            map.put("daysPlan", daysPlan);
+            map.put("daysPlanMap",daysPlanMap);
             answer = AnswerGenerator.genSuccessAnswer(map);
         } catch (Exception e) {
             log.error(e.getMessage());

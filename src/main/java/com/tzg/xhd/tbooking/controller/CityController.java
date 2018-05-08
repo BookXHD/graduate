@@ -1,5 +1,7 @@
 package com.tzg.xhd.tbooking.controller;
 
+import com.tzg.xhd.eastnan.entity.Hotel;
+import com.tzg.xhd.eastnan.service.HotelService;
 import com.tzg.xhd.tbooking.VO.TripPlanVO;
 import com.tzg.xhd.tbooking.common.Answer;
 import com.tzg.xhd.tbooking.common.AnswerGenerator;
@@ -37,6 +39,9 @@ public class CityController {
 
     @Autowired
     private TripPlanService tripPlanService;
+
+    @Autowired
+    private HotelService hotelService;
 
 
     @ApiOperation(value = "目的地页面", notes = "目的地展示国内各省份")
@@ -79,10 +84,12 @@ public class CityController {
         TripPlan tripPlan = new TripPlan();
         tripPlan.setCityId(Integer.parseInt(id));
         List<TripPlanVO> tripPlans = tripPlanService.getTripPlanVOList(tripPlan);
+        List<Hotel> hotels = hotelService.selectHotel(null,id,null,null);
         Map<String,Object> map = new HashMap<>();
         map.put("city",city);
         map.put("tripPlans",tripPlans);
-            answer = AnswerGenerator.genSuccessAnswer(map);
+        map.put("hotels",hotels);
+        answer = AnswerGenerator.genSuccessAnswer(map);
         } catch (Exception e) {
             log.error(e.getMessage());
             answer = AnswerGenerator.genFailAnswer("城市详情页面后台请求出错！");
