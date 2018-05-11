@@ -10,6 +10,7 @@ import com.tzg.xhd.tbooking.entity.House;
 import com.tzg.xhd.tbooking.entity.User;
 import com.tzg.xhd.tbooking.mapper.HouseMapper;
 import com.tzg.xhd.tbooking.service.HouseService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service("HouseService")
+@Slf4j
 @Transactional
 public class HouseServiceImpl extends AbstractService<House> implements HouseService {
     @Autowired
@@ -40,19 +42,37 @@ public class HouseServiceImpl extends AbstractService<House> implements HouseSer
     }
 
     @Override
-    public List<HotelRecordVO> selectByUser(User user,String houseId) {
+    public List<HotelRecordVO> selectByUser(String userId,String houseId) {
         House house = new House();
-        house.setUserId(user.getId());
+        house.setUserId(Integer.parseInt(userId));
         Map<String, Object> map = new HashMap<>();
-        map.put("userId",user.getId());
-        map.put("houseId",houseId);
-        List<House> houses = houseMapper.selectOrder(map);
         List<HotelRecordVO> hotelRecordVOS = new ArrayList<>();
-        for(House house1 : houses){
-            HotelRecordVO hotelRecordVO = createVO(house1);
-            hotelRecordVOS.add(hotelRecordVO);
+        try {
+            map.put("userId", userId);
+            map.put("houseId", houseId);
+            List<House> houses = houseMapper.selectOrder(map);
+            for (House house1 : houses) {
+                HotelRecordVO hotelRecordVO = createVO(house1);
+                hotelRecordVOS.add(hotelRecordVO);
+            }
+        }catch (Exception e) {
+            log.error("HouseServiceImpl selectByUser");
         }
         return hotelRecordVOS;
+    }
+
+    @Override
+    public Integer selectOrderCount(String userId,String houseId) {
+        Map<String, Object> map = new HashMap<>();
+        Integer count = 0;
+        try {
+            map.put("userId", userId);
+            map.put("houseId", houseId);
+            count = houseMapper.selectOrderCount(map);
+        }catch (Exception e) {
+            log.error("HouseServiceImpl selectByUser");
+        }
+        return count;
     }
 
     private HotelRecordVO createVO(House house) {

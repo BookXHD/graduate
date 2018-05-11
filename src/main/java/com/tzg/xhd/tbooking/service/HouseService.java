@@ -7,6 +7,7 @@ import com.tzg.xhd.tbooking.entity.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public interface HouseService extends BaseService<House> {
@@ -19,8 +20,17 @@ public interface HouseService extends BaseService<House> {
 
     /**
      * 获得该用户的所有酒店订单记录
-     * @param user
+     * @param userId
+     * @param houseId
      * @return
      */
-    List<HotelRecordVO> selectByUser(User user,String houseId);
+    List<HotelRecordVO> selectByUser(String userId,String houseId);
+
+    /**
+     * 获得该用户的所有酒店订单记录
+     * @param userId
+     * @param houseId
+     * @return
+     */
+    Integer selectOrderCount(String userId,String houseId);
 }

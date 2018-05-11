@@ -9,5 +9,7 @@ import java.util.Map;
 
 @Repository
 public interface HouseMapper extends Mapper<House> {
+    Integer selectOrderCount(Map<String, Object> map);
+
     List<House> selectOrder(Map<String, Object> map);
 }

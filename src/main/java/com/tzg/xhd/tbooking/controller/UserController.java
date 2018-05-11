@@ -180,7 +180,7 @@ public class UserController {
     public String orderRecord(Model model){
         User user = HttpSessionUtil.getLoginUserSession();
         List<TripPlanOrder> tripPlanOrders = tripPlanOrderService.selectByUser(user.getId());
-        List<HotelRecordVO> houses = houseService.selectByUser(user,null);
+        List<HotelRecordVO> houses = houseService.selectByUser(user.getId().toString(),null);
         model.addAttribute("houses",houses);
         model.addAttribute("tripPlanOrders",tripPlanOrders);
         return "user/order";
@@ -202,9 +202,9 @@ public class UserController {
             int pageNum = Integer.parseInt(currentPage);
             PageHelper.startPage(pageNum, pageSize);
             User user = HttpSessionUtil.getLoginUserSession();
-            List<HotelRecordVO> houses = houseService.selectByUser(user,houseId);
+            List<HotelRecordVO> houses = houseService.selectByUser(user.getId().toString(),houseId);
             map.put("pageSize",pageSize);
-            map.put("totalPage",houses.size());
+            map.put("totalPage",houseService.selectOrderCount(user.getId().toString(),houseId));
             map.put("orderRecord",houses);
             answer = AnswerGenerator.genSuccessAnswer(map);
         } catch (Exception e) {
