@@ -13,4 +13,19 @@
     <result column="last_pay" property="lastPay" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
   </resultMap>
+
+  <sql id="table"> house </sql>
+
+  <select id="selectOrder" resultMap="BaseResultMap" parameterType="java.util.Map">
+    SELECT
+    *
+    FROM
+    <include refid="table" />
+    WHERE
+    user_id = #{userId}
+    <if test="houseId != null and houseId.trim() != ''">
+    AND house_id = #{houseId}
+    </if>
+    ORDER BY room_time ASC
+  </select>
 </mapper>
