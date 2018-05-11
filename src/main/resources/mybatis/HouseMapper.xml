@@ -16,6 +16,18 @@
 
   <sql id="table"> house </sql>
 
+  <select id="selectOrderCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+    SELECT
+    count(1)
+    FROM
+    <include refid="table" />
+    WHERE
+    user_id = #{userId}
+    <if test="houseId != null and houseId.trim() != ''">
+      AND house_id = #{houseId}
+    </if>
+  </select>
+
   <select id="selectOrder" resultMap="BaseResultMap" parameterType="java.util.Map">
     SELECT
     *
