@@ -183,7 +183,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "订单管理页面", notes = "管理用户酒店和旅游套餐的订单")
-    @RequestMapping(value = "/orderMange",method = RequestMethod.GET)
+        @RequestMapping(value = "/orderMange",method = RequestMethod.GET)
     @ResponseBody
     public Answer orderMange() {
         Answer answer = new Answer();

@@ -152,9 +152,9 @@ public class TripPlanController {
         }
 
         //跳转到页面跳转接口
-//        return "redirect:/tripPlan/queryOrder?orderNo=" + orderNo;
+        return "redirect:/tripPlan/queryOrder?orderNo=" + orderNo;
         //跳转到数据返回接口
-        return "redirect:/tripPlan/queryOrderForm?orderNo=" + orderNo;
+//        return "redirect:/tripPlan/queryOrderForm?orderNo=" + orderNo;
     }
 
     @ApiIgnore()
@@ -266,7 +266,7 @@ public class TripPlanController {
         }catch (Exception e){
             log.error(e.getMessage());
         }
-        return "redirect:/user/orderRecord";
+        return "redirect:http://localhost:8082/myorder";
     }
 
     @ApiOperation(value = "查询支付宝订单接口", notes = "由支付宝同步返回接口重定向,查询支付宝订单,并返回查询结果")
