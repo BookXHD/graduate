@@ -44,7 +44,7 @@ public class TripPlanServiceImpl extends AbstractService<TripPlan> implements Tr
                     String[] plan = day.split(":");
                     String time = plan[0];
                     String spots = plan[1];
-                    String[] spot = spots.split(",");
+                        String[] spot = spots.split(",");
                     List<String> list =  Arrays.asList(spot);
                     daysPlanMap.put(time,list);
                 }

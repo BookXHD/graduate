@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import com.tzg.xhd.eastnan.service.HotelService;
 import com.tzg.xhd.eastnan.entity.Hotel;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
@@ -116,7 +117,8 @@ public class HouseController {
         }
     }
 
-    @RequestMapping(value = "/houseDetail")
+    @ApiIgnore
+    @RequestMapping(value = "/houseDetail",method = RequestMethod.GET)
     public String houseDetail(Model model, String houseId){
         House house = houseService.findById(Integer.parseInt(houseId));
         model.addAttribute("house",house);

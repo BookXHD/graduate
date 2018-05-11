@@ -222,6 +222,7 @@ public class TripPlanController {
         }
         return answer;
     }
+
     @ApiOperation(value = "查询支付宝订单接口", notes = "由支付宝同步返回接口重定向,再重定向到订单管理页面")
     @RequestMapping(value = "/queryOrder",method = RequestMethod.GET)
     public String queryOrder(String orderNo) {
