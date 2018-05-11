@@ -169,6 +169,9 @@ public class UserController {
             return AnswerGenerator.genFailAnswer(e.getMessage());
         }
         User user = HttpSessionUtil.getLoginUserSession();
+        if(null == user){
+            return AnswerGenerator.genFailAnswer("用户session已过期,请重新登录");
+        }
         user.setPicture(oldFileName);
         userService.update(user);
         HttpSessionUtil.setLoginUserSession(user);
@@ -202,6 +205,9 @@ public class UserController {
             int pageNum = Integer.parseInt(currentPage);
             PageHelper.startPage(pageNum, pageSize);
             User user = HttpSessionUtil.getLoginUserSession();
+            if(null == user){
+                return AnswerGenerator.genFailAnswer("用户session已过期,请重新登录");
+            }
             List<HotelRecordVO> houses = houseService.selectByUser(user.getId().toString(),houseId);
             map.put("pageSize",pageSize);
             map.put("totalPage",houseService.selectOrderCount(user.getId().toString(),houseId));
