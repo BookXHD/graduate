@@ -1,6 +1,8 @@
 package com.tzg.xhd.tbooking.controller;
 
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.tzg.xhd.tbooking.VO.HotelRecordVO;
 import com.tzg.xhd.tbooking.common.Answer;
 import com.tzg.xhd.tbooking.common.AnswerGenerator;
@@ -30,7 +32,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Api(description = "用户操作")
@@ -176,21 +180,33 @@ public class UserController {
     public String orderRecord(Model model){
         User user = HttpSessionUtil.getLoginUserSession();
         List<TripPlanOrder> tripPlanOrders = tripPlanOrderService.selectByUser(user.getId());
-        List<HotelRecordVO> houses = houseService.selectByUser(user);
+        List<HotelRecordVO> houses = houseService.selectByUser(user,null);
         model.addAttribute("houses",houses);
         model.addAttribute("tripPlanOrders",tripPlanOrders);
         return "user/order";
     }
 
+    /**
+     * 异步获取订单
+     * @param currentPage 当前页
+     * @return
+     */
     @ApiOperation(value = "订单管理页面", notes = "管理用户酒店和旅游套餐的订单")
-        @RequestMapping(value = "/orderMange",method = RequestMethod.GET)
+    @RequestMapping(value = "/orderMange",method = RequestMethod.GET)
     @ResponseBody
-    public Answer orderMange() {
+    public Answer orderMange(String currentPage,String houseId) {
         Answer answer = new Answer();
+        Map<String,Object> map = new HashMap<>();
+        int pageSize = 4;
         try {
+            int pageNum = Integer.parseInt(currentPage);
+            PageHelper.startPage(pageNum, pageSize);
             User user = HttpSessionUtil.getLoginUserSession();
-            List<HotelRecordVO> houses = houseService.selectByUser(user);
-            answer = AnswerGenerator.genSuccessAnswer(houses);
+            List<HotelRecordVO> houses = houseService.selectByUser(user,houseId);
+            map.put("pageSize",pageSize);
+            map.put("totalPage",houses.size());
+            map.put("orderRecord",houses);
+            answer = AnswerGenerator.genSuccessAnswer(map);
         } catch (Exception e) {
             log.error(e.getMessage());
             answer = AnswerGenerator.genFailAnswer("订单管理页面后台请求出错！");

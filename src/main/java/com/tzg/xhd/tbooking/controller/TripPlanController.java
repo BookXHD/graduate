@@ -227,7 +227,7 @@ public class TripPlanController {
         return answer;
     }
 
-    @ApiIgnore
+    @ApiOperation(value = "查询支付宝订单接口", notes = "查询支付宝订单接口 ")
     @RequestMapping(value = "/queryOrder",method = RequestMethod.GET)
     public String queryOrder(String orderNo) {
         //获得初始化的AlipayClient
@@ -269,7 +269,7 @@ public class TripPlanController {
         return "redirect:http://localhost:8082/myorder";
     }
 
-    @ApiOperation(value = "查询支付宝订单接口", notes = "由支付宝同步返回接口重定向,查询支付宝订单,并返回查询结果")
+    @ApiIgnore
     @RequestMapping(value = "/queryOrderForm",method = RequestMethod.GET)
     public Answer queryOrderForm(String orderNo) {
         Answer answer = new Answer();

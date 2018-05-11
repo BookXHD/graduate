@@ -22,5 +22,5 @@ public interface HouseService extends BaseService<House> {
      * @param user
      * @return
      */
-    List<HotelRecordVO> selectByUser(User user);
+    List<HotelRecordVO> selectByUser(User user,String houseId);
 }

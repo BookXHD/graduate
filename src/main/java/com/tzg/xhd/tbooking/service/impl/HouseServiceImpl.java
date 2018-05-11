@@ -16,7 +16,9 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service("HouseService")
 @Transactional
@@ -38,10 +40,13 @@ public class HouseServiceImpl extends AbstractService<House> implements HouseSer
     }
 
     @Override
-    public List<HotelRecordVO> selectByUser(User user) {
+    public List<HotelRecordVO> selectByUser(User user,String houseId) {
         House house = new House();
         house.setUserId(user.getId());
-        List<House> houses = houseMapper.select(house);
+        Map<String, Object> map = new HashMap<>();
+        map.put("userId",user.getId());
+        map.put("houseId",houseId);
+        List<House> houses = houseMapper.selectOrder(map);
         List<HotelRecordVO> hotelRecordVOS = new ArrayList<>();
         for(House house1 : houses){
             HotelRecordVO hotelRecordVO = createVO(house1);
