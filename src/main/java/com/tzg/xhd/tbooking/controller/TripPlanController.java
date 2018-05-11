@@ -150,7 +150,11 @@ public class TripPlanController {
         }catch (Exception e){
             log.error("错误日志测试"+e.getMessage());
         }
-        return "redirect:/tripPlan/queryOrder?orderNo=" + orderNo;
+
+        //跳转到页面跳转接口
+//        return "redirect:/tripPlan/queryOrder?orderNo=" + orderNo;
+        //跳转到数据返回接口
+        return "redirect:/tripPlan/queryOrderForm?orderNo=" + orderNo;
     }
 
     @ApiIgnore()
@@ -223,10 +227,9 @@ public class TripPlanController {
         return answer;
     }
 
-    @ApiOperation(value = "查询支付宝订单接口", notes = "由支付宝同步返回接口重定向,再重定向到订单管理页面")
+    @ApiIgnore
     @RequestMapping(value = "/queryOrder",method = RequestMethod.GET)
     public String queryOrder(String orderNo) {
-        Map<String,String> map = new HashMap<String,String>();
         //获得初始化的AlipayClient
         AlipayClient alipayClient = new DefaultAlipayClient(AlipayConfig.gatewayUrl, AlipayConfig.app_id, AlipayConfig.merchant_private_key, "json", AlipayConfig.charset, AlipayConfig.alipay_public_key, AlipayConfig.sign_type);
         //设置请求参数
@@ -264,5 +267,54 @@ public class TripPlanController {
             log.error(e.getMessage());
         }
         return "redirect:/user/orderRecord";
+    }
+
+    @ApiOperation(value = "查询支付宝订单接口", notes = "由支付宝同步返回接口重定向,查询支付宝订单,并返回查询结果")
+    @RequestMapping(value = "/queryOrderForm",method = RequestMethod.GET)
+    public Answer queryOrderForm(String orderNo) {
+        Answer answer = new Answer();
+        Map<String,Object> map = new HashMap<>();
+        //获得初始化的AlipayClient
+        AlipayClient alipayClient = new DefaultAlipayClient(AlipayConfig.gatewayUrl, AlipayConfig.app_id, AlipayConfig.merchant_private_key, "json", AlipayConfig.charset, AlipayConfig.alipay_public_key, AlipayConfig.sign_type);
+        //设置请求参数
+        AlipayTradeQueryRequest alipayRequest = new AlipayTradeQueryRequest();
+        //商户订单号，商户网站订单系统中唯一订单号
+        String out_trade_no = orderNo;
+        alipayRequest.setBizContent("{\"out_trade_no\":\""+ out_trade_no +"\"}");
+        try {
+            //请求
+            String result = alipayClient.execute(alipayRequest).getBody();
+            Map map1 = (Map)JSONObject.parseObject(result);
+            Map a = (Map)map1.get("alipay_trade_query_response");
+            String tradeAtatus = a.get("trade_status").toString();
+            String totalAmount = a.get("total_amount").toString();
+            //假如此条订单返回 “查询成功” 则进行业务逻辑
+            if(out_trade_no.indexOf("T")>=0 && tradeAtatus.equals("TRADE_SUCCESS")) {
+                //T 开头的为旅游路线
+                out_trade_no = out_trade_no.substring(1,out_trade_no.length());
+                //没收藏直接购买的
+                String planId = out_trade_no.substring(14, out_trade_no.length());
+                tripPlanOrderService.CreateOrderByBought(planId, out_trade_no, totalAmount);
+                //在个人订单管理中通过收藏购买的
+
+            }else if(out_trade_no.indexOf("H")>=0) {
+                //H 开头的为酒店
+                out_trade_no = out_trade_no.substring(1,out_trade_no.length());
+                String houseId = out_trade_no.substring(14, out_trade_no.length());
+                if(tradeAtatus.equals("TRADE_SUCCESS")){
+                    //如果交易成功,则把海胆系统的交易记录数据同步到东南向系统
+                    houseService.order(houseService.findById(Integer.parseInt(houseId)));
+                    map.put("TRADE_SUCCESS",true);
+                } else {
+                    //如果交易不成功,则把海胆系统中的交易记录数据删除掉（回退）
+                    houseService.deleteById(Integer.parseInt(houseId));
+                    map.put("TRADE_SUCCESS",false);
+                }
+            }
+        }catch (Exception e){
+            log.error(e.getMessage());
+            answer = AnswerGenerator.genFailAnswer("查询支付宝订单接口后台出错");
+        }
+        return answer;
     }
 }
