@@ -3,6 +3,8 @@ package com.tzg.xhd.tbooking.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.tzg.xhd.eastnan.entity.Hotel;
+import com.tzg.xhd.eastnan.service.HotelService;
 import com.tzg.xhd.tbooking.VO.HotelRecordVO;
 import com.tzg.xhd.tbooking.common.Answer;
 import com.tzg.xhd.tbooking.common.AnswerGenerator;
@@ -52,6 +54,9 @@ public class UserController {
 
     @Autowired
     HouseService houseService;
+
+    @Autowired
+    HotelService hotelService;
 
     @ApiOperation(value = "用户登录页面", notes = "用户登录页面跳转")
     @RequestMapping(value = "/login",method = RequestMethod.GET)
@@ -197,7 +202,7 @@ public class UserController {
     @ApiOperation(value = "订单管理页面", notes = "管理用户酒店和旅游套餐的订单")
     @RequestMapping(value = "/orderMange",method = RequestMethod.GET)
     @ResponseBody
-    public Answer orderMange(String currentPage,String houseId) {
+    public Answer orderMange(String currentPage,String houseName) {
         Answer answer = new Answer();
         Map<String,Object> map = new HashMap<>();
         int pageSize = 4;
@@ -207,6 +212,12 @@ public class UserController {
             User user = HttpSessionUtil.getLoginUserSession();
             if(null == user){
                 return AnswerGenerator.genFailAnswer("用户session已过期,请重新登录");
+            }
+            List<Hotel> hotels = hotelService.selectHotel(null,null,null,null,houseName);
+            String houseId = "";
+            if(hotels.size() == 1){
+                Hotel hotel = hotels.get(0);
+                houseId = hotel.getId().toString();
             }
             List<HotelRecordVO> houses = houseService.selectByUser(user.getId().toString(),houseId);
             map.put("pageSize",pageSize);

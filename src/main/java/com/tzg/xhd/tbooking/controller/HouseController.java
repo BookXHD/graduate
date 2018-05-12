@@ -41,7 +41,7 @@ public class HouseController {
     @RequestMapping(value = "/liveDetail",method = RequestMethod.GET)
     public String liveDetail(Model model, String roomAmount, String city, String priceMin, String priceMax){
         try{
-            List<Hotel> hotelList = hotelService.selectHotel(roomAmount, city, priceMin, priceMax);
+            List<Hotel> hotelList = hotelService.selectHotel(roomAmount, city, priceMin, priceMax,null);
             model.addAttribute("hotelList",hotelList);
         } catch (Exception e){
             log.error(e.getMessage());

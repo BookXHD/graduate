@@ -84,7 +84,7 @@ public class CityController {
         TripPlan tripPlan = new TripPlan();
         tripPlan.setCityId(Integer.parseInt(id));
         List<TripPlanVO> tripPlans = tripPlanService.getTripPlanVOList(tripPlan);
-        List<Hotel> hotels = hotelService.selectHotel(null,id,null,null);
+        List<Hotel> hotels = hotelService.selectHotel(null,id,null,null,null);
         Map<String,Object> map = new HashMap<>();
         map.put("city",city);
         map.put("tripPlans",tripPlans);
