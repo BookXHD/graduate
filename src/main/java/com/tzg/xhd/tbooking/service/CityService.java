@@ -15,4 +15,11 @@ public interface CityService extends BaseService<City> {
      * @return
      */
     List<City> getCityByProvince(String province);
+
+    /**
+     * 根据城市名字 右模糊查询城市
+     * @param cityName
+     * @return
+     */
+    List<City> getCityByName(String cityName);
 }

@@ -317,4 +317,19 @@ public class TripPlanController {
         }
         return answer;
     }
+
+    @ApiOperation(value = "攻略查询", notes = "返回攻略的右模糊查询结果")
+    @RequestMapping(value = "/queryTripTips",method = RequestMethod.GET)
+    @ResponseBody
+    public Answer queryTripTips(String tripPlanName){
+        Answer answer = new Answer();
+        try {
+            List<TripPlan> tripPlans = tripPlanService.getTripPlanByName(tripPlanName);
+            answer = AnswerGenerator.genSuccessAnswer(tripPlans);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            answer = AnswerGenerator.genFailAnswer("攻略查询 后台请求出错！");
+        }
+        return answer;
+    }
 }

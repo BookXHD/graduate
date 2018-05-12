@@ -12,6 +12,7 @@ import com.tzg.xhd.tbooking.entity.User;
 import com.tzg.xhd.tbooking.service.CityService;
 import com.tzg.xhd.tbooking.service.TripPlanService;
 import com.tzg.xhd.tbooking.util.HttpSessionUtil;
+import com.tzg.xhd.tbooking.util.IPAdressUtil;
 import com.tzg.xhd.tbooking.util.RedisUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -97,4 +98,37 @@ public class CityController {
         return answer;
     }
 
+    @ApiOperation(value = "当前城市", notes = "返回登录用户当前的城市定位")
+    @RequestMapping(value = "/currentCity",method = RequestMethod.GET)
+    @ResponseBody
+    public Answer currentCity(){
+        Answer answer = new Answer();
+        try {
+            User user = HttpSessionUtil.getLoginUserSession();
+            if(null == user){
+                return AnswerGenerator.genFailAnswer("用户未登录或登录已过时,请先登录！");
+            }
+            String currentCity = IPAdressUtil.getCurrentCtiy();
+            answer = AnswerGenerator.genSuccessAnswer("用户当前所在的省市为:"+currentCity);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            answer = AnswerGenerator.genFailAnswer("当前城市 后台请求出错！");
+        }
+        return answer;
+    }
+
+    @ApiOperation(value = "城市查询", notes = "返回城市的右模糊查询结果")
+    @RequestMapping(value = "/queryCity",method = RequestMethod.GET)
+    @ResponseBody
+    public Answer queryCity(String cityName){
+        Answer answer = new Answer();
+        try {
+            List<City> cities = cityService.getCityByName(cityName);
+            answer = AnswerGenerator.genSuccessAnswer(cities);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            answer = AnswerGenerator.genFailAnswer("城市查询 后台请求出错！");
+        }
+        return answer;
+    }
 }

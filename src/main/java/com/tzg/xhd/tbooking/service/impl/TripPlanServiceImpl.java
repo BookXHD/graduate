@@ -57,5 +57,8 @@ public class TripPlanServiceImpl extends AbstractService<TripPlan> implements Tr
         return tripPlanVOList;
     }
 
-
+    @Override
+    public List<TripPlan> getTripPlanByName(String name) {
+        return tripPlanMapper.getTripPlanByName(name);
+    }
 }

@@ -21,4 +21,9 @@ public class CityServiceImpl extends AbstractService<City> implements CityServic
     public List<City> getCityByProvince(String province){
         return cityMapper.getCityByProvince(province);
     }
+
+    @Override
+    public List<City> getCityByName(String cityName) {
+        return cityMapper.getCityByName(cityName);
+    }
 }

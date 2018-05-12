@@ -59,4 +59,9 @@ public class TripTipsServiceImpl extends AbstractService<TripTips> implements Tr
         }
         return tripTipsVOS;
     }
+
+    @Override
+    public List<TripTips> getTripTipsByName(String tripTipsName) {
+        return tripTipsMapper.getTripTipsByName(tripTipsName);
+    }
 }

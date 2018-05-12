@@ -10,4 +10,6 @@ import java.util.List;
 @Service
 public interface TripTipsService extends BaseService<TripTips> {
     List<TripTipsVO> getTripTipsList(Integer cityId, Integer days);
+
+    List<TripTips> getTripTipsByName(String tripTipsName);
 }
