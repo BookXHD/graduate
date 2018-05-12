@@ -10,7 +10,7 @@ import java.io.Serializable;
  * 描述:city表的实体类
  * @version
  * @author:  Administrator
- * @创建时间: 2018-03-02
+ * @创建时间: 2018-05-12
  */
 @Table(name = "city")
 public class City implements Serializable {
@@ -27,12 +27,17 @@ public class City implements Serializable {
     private String name;
 
     /**
+     * 城市名字拼音
+     */
+    private String nameStr;
+
+    /**
      * 所属省份
      */
     private Integer province;
 
     /**
-     * 城市照片保存的相对地址
+     * 城市图片保存地址
      */
     private String img;
 
@@ -72,6 +77,16 @@ public class City implements Serializable {
     private String cultural;
 
     /**
+     * 相关影视
+     */
+    private String movie;
+
+    /**
+     * 相关书籍描述
+     */
+    private String book;
+
+    /**
      * city
      */
     private static final long serialVersionUID = 1L;
@@ -109,6 +124,22 @@ public class City implements Serializable {
     }
 
     /**
+     * 城市名字拼音
+     * @return name_str 城市名字拼音
+     */
+    public String getNameStr() {
+        return nameStr;
+    }
+
+    /**
+     * 城市名字拼音
+     * @param nameStr 城市名字拼音
+     */
+    public void setNameStr(String nameStr) {
+        this.nameStr = nameStr == null ? null : nameStr.trim();
+    }
+
+    /**
      * 所属省份
      * @return province 所属省份
      */
@@ -121,15 +152,23 @@ public class City implements Serializable {
      * @param province 所属省份
      */
     public void setProvince(Integer province) {
-        this.province = province == null ? null : province;
+        this.province = province;
     }
 
+    /**
+     * 城市图片保存地址
+     * @return img 城市图片保存地址
+     */
     public String getImg() {
         return img;
     }
 
+    /**
+     * 城市图片保存地址
+     * @param img 城市图片保存地址
+     */
     public void setImg(String img) {
-        this.img = img;
+        this.img = img == null ? null : img.trim();
     }
 
     /**
@@ -242,5 +281,37 @@ public class City implements Serializable {
      */
     public void setCultural(String cultural) {
         this.cultural = cultural == null ? null : cultural.trim();
+    }
+
+    /**
+     * 相关影视
+     * @return movie 相关影视
+     */
+    public String getMovie() {
+        return movie;
+    }
+
+    /**
+     * 相关影视
+     * @param movie 相关影视
+     */
+    public void setMovie(String movie) {
+        this.movie = movie == null ? null : movie.trim();
+    }
+
+    /**
+     * 相关书籍描述
+     * @return book 相关书籍描述
+     */
+    public String getBook() {
+        return book;
+    }
+
+    /**
+     * 相关书籍描述
+     * @param book 相关书籍描述
+     */
+    public void setBook(String book) {
+        this.book = book == null ? null : book.trim();
     }
 }
