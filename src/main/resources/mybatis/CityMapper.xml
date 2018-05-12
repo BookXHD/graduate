@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.tzg.xhd.tbooking.entity.City">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="name_str" jdbcType="VARCHAR" property="nameStr" />
     <result column="province" jdbcType="INTEGER" property="province" />
     <result column="img" jdbcType="VARCHAR" property="img" />
     <result column="area" jdbcType="INTEGER" property="area" />
@@ -13,6 +14,8 @@
     <result column="weather" jdbcType="VARCHAR" property="weather" />
     <result column="food" jdbcType="VARCHAR" property="food" />
     <result column="cultural" jdbcType="VARCHAR" property="cultural" />
+    <result column="movie" jdbcType="VARCHAR" property="movie" />
+    <result column="book" jdbcType="VARCHAR" property="book" />
   </resultMap>
   <sql id="table">city</sql>
 
