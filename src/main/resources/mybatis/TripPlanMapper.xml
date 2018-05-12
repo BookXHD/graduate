@@ -17,4 +17,15 @@
     <result column="total_person" property="totalPerson" jdbcType="INTEGER" />
     <result column="remain_assign" property="remainAssign" jdbcType="INTEGER" />
   </resultMap>
+
+  <sql id="table">trip_plan</sql>
+
+  <select id="getTripPlanByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT * FROM
+    <include refid="table" />
+    WHERE 1=1
+    <if test="name != null and name.trim() != ''">
+      AND name like CONCAT(#{name,jdbcType=VARCHAR},'%')
+    </if>
+  </select>
 </mapper>

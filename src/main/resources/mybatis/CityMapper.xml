@@ -24,4 +24,13 @@
     <include refid="table" />
     WHERE province = #{province}
   </select>
+
+  <select id="getCityByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT * FROM
+    <include refid="table" />
+    WHERE 1=1
+    <if test="name != null and name.trim() != ''">
+      AND name like CONCAT(#{name,jdbcType=VARCHAR},'%')
+    </if>
+  </select>
 </mapper>
