@@ -205,7 +205,7 @@ public class UserController {
     public Answer orderMange(String currentPage,String houseName) {
         Answer answer = new Answer();
         Map<String,Object> map = new HashMap<>();
-        int pageSize = 4;
+        int pageSize = 8;
         try {
             int pageNum = Integer.parseInt(currentPage);
             PageHelper.startPage(pageNum, pageSize);

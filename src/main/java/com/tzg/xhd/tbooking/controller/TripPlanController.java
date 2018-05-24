@@ -318,6 +318,8 @@ public class TripPlanController {
         return answer;
     }
 
+
+
     @ApiOperation(value = "攻略查询", notes = "返回攻略的右模糊查询结果")
     @RequestMapping(value = "/queryTripTips",method = RequestMethod.GET)
     @ResponseBody
@@ -326,6 +328,29 @@ public class TripPlanController {
         try {
             List<TripPlan> tripPlans = tripPlanService.getTripPlanByName(tripPlanName);
             answer = AnswerGenerator.genSuccessAnswer(tripPlans);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            answer = AnswerGenerator.genFailAnswer("攻略查询 后台请求出错！");
+        }
+        return answer;
+    }
+
+    @ApiOperation(value = "点赞", notes = "点赞")
+    @RequestMapping(value = "/diadnzan",method = RequestMethod.GET)
+    @ResponseBody
+    public Answer diadnzan(){
+        Answer answer = new Answer();
+        User user = HttpSessionUtil.getLoginUserSession();
+        try {
+            //点赞
+            String amountStr = RedisUtil.getKey("dianzan");
+            if(StringUtils.isBlank(amountStr)) {
+                amountStr = "0";
+            }
+            int amount = Integer.valueOf(amountStr).intValue();
+            amount++;
+            RedisUtil.setKey("dianzan",new Integer(amount).toString());
+            answer = AnswerGenerator.genSuccessAnswer(amount);
         } catch (Exception e) {
             log.error(e.getMessage());
             answer = AnswerGenerator.genFailAnswer("攻略查询 后台请求出错！");
