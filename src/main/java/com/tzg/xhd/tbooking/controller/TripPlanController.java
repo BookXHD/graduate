@@ -347,6 +347,8 @@ public class TripPlanController {
             String amountStr = RedisUtil.getKey("dianzan"+user.getId());
             if(StringUtils.isBlank(amountStr)) {
                 amountStr1 = RedisUtil.getKey("dianzan");
+            } else{
+                return AnswerGenerator.genFailAnswer("您已点赞");
             }
             int amount = Integer.valueOf(amountStr1).intValue();
             amount++;
