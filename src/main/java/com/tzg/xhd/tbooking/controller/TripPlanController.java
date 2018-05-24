@@ -341,15 +341,17 @@ public class TripPlanController {
     public Answer diadnzan(){
         Answer answer = new Answer();
         User user = HttpSessionUtil.getLoginUserSession();
+        String amountStr1 = "";
         try {
             //点赞
-            String amountStr = RedisUtil.getKey("dianzan");
+            String amountStr = RedisUtil.getKey("dianzan"+user.getId());
             if(StringUtils.isBlank(amountStr)) {
-                amountStr = "0";
+                amountStr1 = RedisUtil.getKey("dianzan");
             }
-            int amount = Integer.valueOf(amountStr).intValue();
+            int amount = Integer.valueOf(amountStr1).intValue();
             amount++;
             RedisUtil.setKey("dianzan",new Integer(amount).toString());
+            RedisUtil.setKey("dianzan"+user.getId(),"1");
             answer = AnswerGenerator.genSuccessAnswer(amount);
         } catch (Exception e) {
             log.error(e.getMessage());
